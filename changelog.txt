@@ -1,0 +1,29 @@
+Changelog :
+===========
+
+22/02/2017 - Migrasi Database rri1 ke rri1_1 [COMPLETED]
+22/02/2017 - Create semua Halaman [FrontEnd] sesuai GUI [NOT COMPLETED]
+
+Note 24/02/2017
+Di sisi redaksi terdapat popup pada home. pop up berupa : 1. tentang berita baru masuk 2. tentang berita hasil revisi. Terdapat 2 tab, yaitu belum disetujui & disetujui. [OK]
+
+Di sisi reporter terdapat popup berupa : 1. tentang berita hasil koreksi.
+terdapat tab belum disetujui & disetujui. [OK]
+
+Search di sisi redaksi di halaman daftar berita. search bar di sebelah kanan atas. [OK]
+
+Di sisi kabid, terdapat laporan Reward tentang 5 orang reporter dengan jumlah tertinggi & terendah. Data yg dgunakan adalah yg ada pada sistem diimplementasi.
+
+Pada laporan prestasi kerja, terdapat informasi mengenai 1 orang reporter dengan jumlah reward tertinggi. data yg digunakan adalah data dari 1 bulan sebelum proses penilaian dilakukan. reporter yang terbaik dalam bulan yg ditentukan.
+
+25/02/2017
+Di sisi reporter harus bisa mengetahui mana yg berita baru & mana yg berita revisi.[OK]
+
+26/02/2017
+Buat fungsi search di redaksi. [OK]
+<form method="post" action="<?php echo site_url('redaksi/search') ?>">
+
+04/03/2017
+QUERY LAPORAN BULANAN
+GET DATA 
+SELECT u.NAMA_USER, count(*) jumlah_berita, sum(b.HOT_NEWS) jumlah_reward FROM `berita` b join `user` u ON b.ID_USER=u.ID_USER group by b.ID_USER

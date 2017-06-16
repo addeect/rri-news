@@ -1,0 +1,198 @@
+/* RRI NEWS MANAGEMENT
+ Author : Addeect-CodeWorks
+ Version : 0.1 */
+ /*table {
+            width: 100%;
+        }
+
+        thead, tbody, tr, td, th { display: block; }
+
+        tr:after {
+            content: ' ';
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        thead th {
+            height: 30px;
+
+        }
+
+        tbody{
+            
+        }
+
+        thead {
+           
+        }
+
+        thead th {
+        	width: 25%;
+            float: left;
+        }
+        tbody td{
+            width: 25%;
+            float: left;
+        }
+.isi_tabel{
+	height: 120px;
+    overflow-y: scroll;
+}*/
+.legend_1,.legend_2,.legend_3,.legend_4,.legend_5{
+    width:20px;
+    height: 20px;
+}
+.legend_1{
+    background-color: #d96557;
+}
+.legend_2{
+    background-color: #2ECC71;
+}
+.legend_3{
+    background-color: #ffc65d;
+}
+.legend_4{
+    background-color: #e0e8f2;
+}
+.legend_5{
+    background-color: #4C5064;
+}
+.container_custom1{
+    padding: 10px 0 20px 0;
+}
+.panel_custom1{
+    margin: 15px auto;
+    width: 100%;
+    padding: 0 5%;
+    background-color: #ffffff;
+    
+    
+}
+.hairline_2{
+    width: 100%;
+    padding: 0 5%;
+    height: 1px;
+    background-color: #c3c3c3;
+}
+.hairline_1{
+    width: 100%;
+    padding: 0 5%;
+    height: 2px;
+    background-color: gray;
+}
+.reg_01{
+    background-color: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    width:100%;
+    box-shadow: 1px 2px 10px gray;
+    border-top-color: #1d5c92;
+    border-top-width: 7px;
+    border-top-style: dashed;
+}
+.hot_news{
+    text-align: center;
+}
+.modal-title{
+    color:#fff;
+}
+.modal-header{
+    background-color: #337ab7;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+}
+.pY{
+    width: 19px;
+    height: 19px;
+    background: url(http://localhost/rri-news/assets/img/sprite_importance2.png) no-repeat;
+    background-position: 0px 0;
+}
+.pH{
+    width: 19px;
+    height: 19px;
+    background: url(http://localhost/rri-news/assets/img/sprite_importance2.png) no-repeat;
+    background-position: -38px 0;
+}
+.action_button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 8px 20px 0 0 ;
+    z-index: 2;
+}
+.action_button1{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 8px 0 0 20px ;
+    z-index: 2;
+}
+.font_menu>h2{
+	color:#fff;
+}
+.font_menu>ul>li>a:hover{
+	background-color: #337ab7;
+}
+.font_menu>ul>li>a{
+	color:#b9b9b9;
+}
+.profile_picture_container{
+	width:100%;
+	text-align: center;
+	padding: 20px 10px;
+}
+.profile_picture{
+ 	width: 150px;
+ 	text-align: center;
+}
+.login-panel{
+	margin-top: 7%;
+}
+.modal_paragraph{
+	text-align:center;
+}
+.modal_action{
+	width: 100%;
+	position: relative;
+	margin: 10px 0;
+	text-align:center;
+}
+.role_rri{
+	color: #ffffff;
+}
+/* INVENTORY TELKOM
+ Author : Addeect-CodeWorks
+ Version : 0.1 */
+ .menu_item{
+ 	padding: 10px 0;
+ 	width: 100%;
+ 	float: left;
+ 	color: #fff;
+ }
+ .sidenav{
+ 	position: fixed;
+ 	overflow-y: auto;
+ }
+.konten{
+	margin-left: 0;
+}
+.kustom_sidebar{
+	
+	border-top: 1px solid #337ab7;
+}
+@media (min-width: 768px) {
+	.konten{
+		margin-left: 25% !important;
+	}
+    .action_button{
+        margin: 32px 20px 0 0 !important;
+    }
+    .action_button1{
+        margin: 32px 0 0 20px !important;
+    }
+    .reg_01{
+    width:600px !important;
+    }
+}
