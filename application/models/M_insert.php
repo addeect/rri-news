@@ -44,6 +44,7 @@ class M_insert extends CI_Model{
             'ID_REWARD'  => $this->input->post('id_reward'),
 			'JUDUL'  => $this->input->post('judul'),
 			'ISI'  => $this->input->post('isi'),
+			'CONTENT'  => strip_tags($this->input->post('isi')),
 			'TANGGAL_PEMBUATAN'  => $now,
 			'ID_KATEGORI'  => $this->input->post('kategori')
 			//'PATH_REKAMAN'  => $name
@@ -58,6 +59,7 @@ class M_insert extends CI_Model{
             'ID_REWARD'  => $this->input->post('id_reward'),
 			'JUDUL'  => $this->input->post('judul'),
 			'ISI'  => $this->input->post('isi'),
+			'CONTENT'  => strip_tags($this->input->post('isi')),
 			'TANGGAL_PEMBUATAN'  => $now,
 			'ID_KATEGORI'  => $this->input->post('kategori'),
 			'PATH_REKAMAN'  => $name
