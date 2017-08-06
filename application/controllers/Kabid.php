@@ -21,6 +21,7 @@ class Kabid extends CI_Controller {
 			'kategori' => $this->m_main->getDataKategori(),
 			'kategori_aktif' => $this->m_main->getDataKategoriAktif(),
 			'hasil_reward' => $this->m_main->getDataEvaluasi2(),
+			'get_reporter_all' => $this->m_main->getReporterAll(),
 			'title' => ucwords($title),
 			'page_name' => $page_name
 		);
@@ -35,6 +36,15 @@ class Kabid extends CI_Controller {
 		//$dataLaporan = $this->m_main->getReportMonth();
 		$data = array('dataLaporan' => $this->m_main->getReportMonth() );
 		$this->load->view('ajax/dashboard1',$data);
+	}
+	function getEmployeeReport(){
+		$id_reporter = $_POST["id_reporter"];
+		$start_date = $_POST["start_date"];
+		$end_date = $_POST["end_date"];
+		// var_dump($_POST["id_reporter"].','.$_POST["start_date"].','.$_POST["end_date"]);die();
+		$this->load->model('m_main');
+		$data_reporter = $this->m_main->getReportEmployee($id_reporter,$start_date,$end_date);
+		echo json_encode($data_reporter);
 	}
 	function cetakLaporanTahunan(){
 		$this->load->library('Pdf');

@@ -1,0 +1,5 @@
+select 
+monthname(tanggal_pembuatan) as bulan,
+count(*) as jumlah_berita,
+sum(hot_news) as jumlah_hot_news
+from berita where id_user="jojo" group by bulan asc

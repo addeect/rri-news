@@ -3,6 +3,32 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function getReportEmployee($id_reporter,$start_date,$end_date){
+
+		$this->db->select("
+			monthname(tanggal_pembuatan) as bulan,
+			count(*) as jumlah_berita,
+			sum(hot_news) as jumlah_hot_news");
+		$this->db->from("berita");
+		$this->db->where("id_user",$id_reporter);
+		$this->db->where("tanggal_pembuatan >=",date('Y-m-d H:i:s', strtotime($start_date)));
+		$this->db->where("tanggal_pembuatan <=",date('Y-m-d H:i:s', strtotime($end_date)));
+		$this->db->group_by("bulan");
+		$this->db->order_by("bulan ASC");
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+	function getReporterAll(){
+		$jabatan = "Reporter";
+		$this->db->select("*");
+		$this->db->from("user");
+		$this->db->where("jabatan",$jabatan);
+		$this->db->order_by("2 ASC");
+		$query = $this->db->get();
+
+		return $query->result();
+	}
 	function getReportYear(){
 
 		$this -> db -> select(" u.NAMA_USER 'NAMA_USER', count(*) jumlah_berita, sum(b.HOT_NEWS) jumlah_reward");
