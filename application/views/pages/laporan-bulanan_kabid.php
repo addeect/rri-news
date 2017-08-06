@@ -129,10 +129,46 @@
               </div>
             </div>
           </div>
-          <div class="panel_custom1">
-            <button type="button" class="btn btn-danger btn-sm">
-              <span class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;SIMPAN PDF
-            </button>
+          <div class="row-fluid" style="border-bottom: : 1px solid black;padding:20px 0 0 0"></div>
+          <div class="row-fluid" style="border-top: 2px solid gray;padding:0 0 20px 0"></div>
+          <div class="row-fluid" style="padding:0 0 20px 0">
+            <h3 class="text-center">Laporan Bulanan</h3>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">
+              <label>Bulan</label>
+              <select name="bulan" id="bulan" class="form-control">
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <label>Tahun</label>
+              <select name="tahun" id="tahun" class="form-control">
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+              </select>
+            </div>
+            <div class="col-sm-2" style="padding-top: 26px;">
+              <button type="button" class="btn btn-danger btn-sm btn-block" id="btn_cetak">
+                <span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;CETAK
+              </button>
+            </div>
+            
           </div>
           <!--div class="row">
             <div class="col-sm-8">
@@ -222,6 +258,14 @@ var data_laporan_bulanan = {
       chart_laporan_bulanan.update();
     };
 $(document).ready(function(){
+  // CETAK PDF
+  $('#btn_cetak').click(function(){
+      var tahun = $('#tahun').val();
+      var bulan = $('#bulan').val();
+      var url = "<?php echo site_url('kabid/cetakLaporanTahunan'); ?>?tahun="+tahun+"&bulan="+bulan;
+      var win = window.open(url, '_blank');
+        win.focus();
+  });
   drawChart();
   $('#datepicker_1').datetimepicker({timepicker:false,format:'Y-m-d'});
   $('#datepicker_2').datetimepicker({timepicker:false,format:'Y-m-d'});

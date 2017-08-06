@@ -22,6 +22,12 @@ class M_main extends CI_Model{
 
 		return $query->result();
 	}
+	function getReward(){
+		$query = $this->db->query("Select JUMLAH_REWARD from reward where id_reward = (select max(id_reward) from reward)");
+		// $query = $this->db->get();
+		return $query->result();
+		// return $query;
+	}
 	function getReporterAll(){
 		$jabatan = "Reporter";
 		$this->db->select("*");
@@ -32,11 +38,17 @@ class M_main extends CI_Model{
 
 		return $query->result();
 	}
-	function getReportYear(){
+	function getReportYear($tahun = null,$bulan = null){
 
-		$this -> db -> select(" u.NAMA_USER 'NAMA_USER', count(*) jumlah_berita, sum(b.HOT_NEWS) jumlah_reward");
+		$this -> db -> select(" u.NAMA_USER 'NAMA_USER', IF(count(*) IS NULL,'0',count(*)) AS jumlah_berita, IF(sum(b.hot_news) IS NULL,'0',sum(b.hot_news)) AS jumlah_reward,");
 		$this -> db -> from('berita b');
 		$this -> db -> join('user u','b.ID_USER=u.ID_USER');
+		if($tahun){
+			$this -> db -> where('YEAR(b.TANGGAL_DISETUJUI)',$tahun);
+		}
+		if($bulan){
+			$this -> db -> where('MONTH(b.TANGGAL_DISETUJUI)',$bulan);
+		}
 		//$this->db->where("b.TANGGAL_DISETUJUI is null AND b.JUDUL LIKE '%".$keyword."%' OR b.ISI LIKE '%".$keyword."%' ",NULL);
 		$this->db->group_by("b.ID_USER");
 		$this->db->order_by("jumlah_reward DESC");

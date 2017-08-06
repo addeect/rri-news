@@ -101,7 +101,10 @@ class Kabid extends CI_Controller {
 		$pdf->AddPage();
 		
 		$html = '<span style="font-weight: bold;">LAPORAN PER REPORTER</span><br/><br/>';
-		$html .= '<span style="font-weight: normal;">Nama : '.$id_reporter.'</span><br/><br/>';
+		foreach ($data_reporter as $key) {
+			$nama_reporter = $key->nama;
+		}
+		$html .= '<span style="font-weight: normal;">Nama : '.$nama_reporter.'</span><br/><br/>';
 		$html .= '<span style="font-weight: normal;">Periode : '.$day.' '.$monthNames[(floatval($month)-1)].' '.$year.' s/d '.$day_01.' '.$monthNames[(floatval($month_01)-1)].' '.$year_01.'</span><br/><br/>';
 		
 
@@ -144,7 +147,17 @@ class Kabid extends CI_Controller {
 	function cetakLaporanTahunan(){
 		$this->load->library('Pdf');
 		$tahun = $this->input->get('tahun');
-		$dataLaporan = $this->m_main->getReportYear();
+		$bulan = $this->input->get('bulan');
+		// $bulan_name = $this->input->get('bulan_name');
+		$dataLaporan = $this->m_main->getReportYear($tahun,$bulan);
+		$data_reward = $this->m_main->getReward();
+		$reward = null;
+		foreach ($data_reward as $key) {
+			$reward = $key->JUMLAH_REWARD;
+		}
+		$monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+		    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+		  ];
 
 		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 		// set document information
@@ -181,6 +194,7 @@ class Kabid extends CI_Controller {
 		$pdf->AddPage();
 		
 		$html = '<span style="font-weight: bold;">EVALUASI PRESTASI KERJA REPORTER</span><br/><br/>';
+		$html .= '<span style="font-weight: normal;">Bulan : '.$monthNames[(floatval($bulan)-1)].' '.$tahun.'</span><br/><br/>';
 		/*$query1 = "SELECT NAMA_LOKASI, WITEL FROM master_access_point WHERE ID_LOKASI='".$id_lokasi."'";
 		$result1 = mysql_query($query1);
 		while($row1 = mysql_fetch_array($result1)){
@@ -192,8 +206,9 @@ class Kabid extends CI_Controller {
 		}*/
 
 		$html .='<table cellpadding="1" cellspacing="1" border="1" style="text-align:center;">
-		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="286px">Nama Reporter</td><td>Jumlah Berita</td><td>Jumlah Point Reward</td></tr>';
+		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="186px">Nama Reporter</td><td>Berita Masuk</td><td>Berita Hot</td><td>Jumlah Nominal</td><td>Target Berita</td></tr>';
 		$start = 1;
+		// var_dump($reward);die();
 		foreach ($dataLaporan as $row)
 		{
 				$html .= "<tr>";
@@ -201,6 +216,8 @@ class Kabid extends CI_Controller {
 		        $html .= "<td style=\"text-align:left\">&nbsp;$row->NAMA_USER</td>";
 		        $html .= "<td>$row->jumlah_berita</td>";
 		        $html .= "<td>$row->jumlah_reward</td>";
+		        $html .= "<td>".($reward*(floatval($row->jumlah_reward)))."</td>";
+		        $html .= "<td>66</td>";
 		        $html .= "</tr>";
 		}
 
