@@ -17,7 +17,7 @@
         <li><a href="<?php echo site_url('kabid/master-kategori') ?>">Master Kategori</a></li>
         <li><a href="<?php echo site_url('kabid/hasil-reward') ?>">Hasil Reward</a></li>
         <li><a href="<?php echo site_url('kabid/laporan-bulanan') ?>">Rekapitulasi Bulanan</a></li>
-        <li class="active"><a>Rekapitulasi Tahunan</a></li>
+        <li class="active"><a>Rekapitulasi Reporter</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
     </div>
@@ -115,6 +115,19 @@ $(document).ready(function(){
   $('#start_date').datetimepicker({timepicker:false,format:'Y-m-d'});
   $('#end_date').datetimepicker({timepicker:false,format:'Y-m-d'});
 
+  // CETAK PDF
+  $('#btn_cetak').click(function(){
+      var id_reporter = $('#id_reporter').val();
+      var tgl_awal = $('#start_date').val();
+      var tgl_akhir = $('#end_date').val();
+      var url = "<?php echo site_url('kabid/laporan_pdf'); ?>?id="+id_reporter+"&tgl_awal="+tgl_awal+"&tgl_akhir="+tgl_akhir;
+      var win = window.open(url, '_blank');
+        win.focus();
+  });
+
+  var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
   // AJAX 
   $('button#btn_tampil').click(function(){
 
@@ -127,6 +140,19 @@ $(document).ready(function(){
     var id_reporter = $('select#id_reporter').val();
     var start_date = $('input#start_date').val();
     var end_date = $('input#end_date').val();
+
+    var start_date_01 = new Date(start_date);
+    var end_date_01 = new Date(end_date);
+
+    // alert((monthNames[start_date_01.getMonth()]) + '/' + start_date_01.getDate() + '/' +  start_date_01.getFullYear());
+
+    var hari = start_date_01.getDate();
+    var bulan = monthNames[start_date_01.getMonth()];
+    var tahun = start_date_01.getFullYear();
+
+    var hari_01 = end_date_01.getDate();
+    var bulan_01 = monthNames[end_date_01.getMonth()];
+    var tahun_01 = end_date_01.getFullYear();
     // alert(id_reporter);
     // AJAX START
     var request = $.ajax({
@@ -148,24 +174,37 @@ $(document).ready(function(){
               $('#loading').removeClass('glyphicon-cog gly-spin');
               $('#loading').addClass('glyphicon-tasks');
               $('#text_message').html("Data Kosong");
+
+              $('label#name_01').html('Nama : - ');
+              $('label#period_01').html('Periode : - ');
           }
         else{
           $('#loading').addClass('hidden');
           $('#text_message').addClass('hidden');
             // $('div#report').html('<table class="table table-responsive table-bordered" id="table_report">');
+            $('label#name_01').html('Nama : '+data[0].nama);
+            $('label#period_01').html('Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01);
+            
             $('table#table_report').append(
-              '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita</td><td>Berita Hot News</td></tr></thead>'
+              '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr></thead>'
               );
             $('table#table_report').append('<tbody>');
             
             var i = 0;
+            var berita_count = 0;
+            var hot_count = 0;
             for (i = 0; i < data.length ; i++) {
               // i = 1;
                 $('tbody').append(
-                  '<tr><td>'+(i+1)+'</td><td>'+data[i].bulan+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+                  '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+
+                berita_count = berita_count + parseFloat(data[i].jumlah_berita);
+                hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
                 
             }
-
+            // TOTAL
+            $('tbody').append(
+              '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
             $('table#table_report').append('</tbody>');
             // $('div#report').append('</table>');
         }
@@ -176,23 +215,37 @@ $(document).ready(function(){
               $('#loading').removeClass('glyphicon-cog gly-spin');
               $('#loading').addClass('glyphicon-tasks');
               $('#text_message').html("Data Kosong");
+
+              $('label#name_01').html('Nama : - ');
+              $('label#period_01').html('Periode : - ');
           }
         else{
           $('#loading').addClass('hidden');
           $('#text_message').addClass('hidden');
-          
+
+          $('div#report').append('<div class="form-group"><label id="name_01">Nama : '+data[0].nama+'</label></div>');
+          $('div#report').append('<div class="form-group"><label id="period_01">Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01+'</label></div>');
           $('div#report').append('<table class="table table-responsive table-bordered" id="table_report">');
           $('table#table_report').append(
-            '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita</td><td>Berita Hot News</td></tr></thead>'
+            '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr></thead>'
             );
           $('table#table_report').append('<tbody>');
           
           var i = 0;
+          var berita_count = 0;
+          var hot_count = 0;
+
           for (i = 0; i < data.length ; i++) {
             // i = 1;
+             // alert(data[i].month);
               $('tbody').append(
-                '<tr><td>'+(i+1)+'</td><td>'+data[i].bulan+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+                '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+              berita_count = berita_count + parseFloat(data[i].jumlah_berita);
+              hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
           }
+          // TOTAL
+          $('tbody').append(
+            '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
 
           $('table#table_report').append('</tbody>');
           $('div#report').append('</table>');

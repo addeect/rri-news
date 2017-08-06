@@ -46,6 +46,101 @@ class Kabid extends CI_Controller {
 		$data_reporter = $this->m_main->getReportEmployee($id_reporter,$start_date,$end_date);
 		echo json_encode($data_reporter);
 	}
+	function laporan_pdf(){
+		$this->load->library('Pdf');
+		$id_reporter = $this->input->get('id');
+		$start_date = $this->input->get('tgl_awal');
+		$end_date = $this->input->get('tgl_akhir');
+
+		$monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+		    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+		  ];
+
+		$data_reporter = $this->m_main->getReportEmployee($id_reporter,$start_date,$end_date);
+
+		$day = date('d',strtotime($start_date));
+		$month = date('m',strtotime($start_date));
+		$year = date('Y',strtotime($start_date));
+
+		$day_01 = date('d',strtotime($end_date));
+		$month_01 = date('m',strtotime($end_date));
+		$year_01 = date('Y',strtotime($end_date));
+
+		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		// set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('AddeectCodeWorks');
+		$pdf->SetTitle('Laporan Tahunan');
+		$pdf->SetSubject('RRI');
+		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+		// set default header data
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Laporan Tahunan', PDF_HEADER_STRING);
+
+		// set header and footer fonts
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin('50');
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set font
+		$pdf->SetFont('dejavusans', '', 10);
+
+		$pdf->AddPage();
+		
+		$html = '<span style="font-weight: bold;">LAPORAN PER REPORTER</span><br/><br/>';
+		$html .= '<span style="font-weight: normal;">Nama : '.$id_reporter.'</span><br/><br/>';
+		$html .= '<span style="font-weight: normal;">Periode : '.$day.' '.$monthNames[(floatval($month)-1)].' '.$year.' s/d '.$day_01.' '.$monthNames[(floatval($month_01)-1)].' '.$year_01.'</span><br/><br/>';
+		
+
+		$html .='<table cellpadding="1" cellspacing="1" border="1" style="text-align:center;">
+		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="286px">Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr>';
+		$start = 1;
+		$berita_count = 0;
+		$hot_count = 0;
+		foreach ($data_reporter as $row)
+		{
+				$html .= "<tr>";
+		        $html .= "<td>".$start++."</td>";
+		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[(($row->month)-1)]."</td>";
+		        $html .= "<td>".$row->jumlah_berita."</td>";
+		        $html .= "<td>$row->jumlah_hot_news</td>";
+		        $html .= "</tr>";
+		        $berita_count = $berita_count + floatval($row->jumlah_berita);
+		        $hot_count = $hot_count + floatval($row->jumlah_hot_news);
+		}
+		$html .= "<tr>";
+        $html .= '<td colspan="2"><b>Total</b></td>';
+        // $html .= "<td style=\"text-align:left\">&nbsp;$row->bulan</td>";
+        $html .= "<td><b>$berita_count</b></td>";
+        $html .= "<td><b>$hot_count</b></td>";
+        $html .= "</tr>";
+		$html .= '</table><br/>';
+		//$html .= '<br/><span style="font-weight: bold;">REKOMENDASI</span><br/>';
+		$html .= '<br/>';
+		// $html .= '<span style="font-weight: normal;">Nama - nama reporter yang tercantum di atas adalah reporter yang memiliki jumlah reward tertinggi di tahun '.$tahun.'.</span><br/>';
+		
+
+		$html .= '</span><br/>';
+		// output the HTML content
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		//$pdf->lastPage();
+		//$pdf->Write(5, 'Some sample text');
+		$pdf->Output('Reporter-'.$id_reporter.'-'.date('Y-m-d H:i:s').'.pdf', 'I');
+	}
 	function cetakLaporanTahunan(){
 		$this->load->library('Pdf');
 		$tahun = $this->input->get('tahun');

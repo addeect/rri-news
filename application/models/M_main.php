@@ -6,13 +6,16 @@ class M_main extends CI_Model{
 	function getReportEmployee($id_reporter,$start_date,$end_date){
 
 		$this->db->select("
-			monthname(tanggal_pembuatan) as bulan,
+			month(b.tanggal_pembuatan) as month,
+			monthname(b.tanggal_pembuatan) as bulan,
 			count(*) as jumlah_berita,
-			sum(hot_news) as jumlah_hot_news");
-		$this->db->from("berita");
-		$this->db->where("id_user",$id_reporter);
-		$this->db->where("tanggal_pembuatan >=",date('Y-m-d H:i:s', strtotime($start_date)));
-		$this->db->where("tanggal_pembuatan <=",date('Y-m-d H:i:s', strtotime($end_date)));
+			IF(sum(b.hot_news) IS NULL,'0',sum(b.hot_news)) AS jumlah_hot_news,
+			u.nama_user as nama");
+		$this->db->from("berita b");
+		$this->db->join("user u","b.id_user=u.id_user");
+		$this->db->where("b.id_user",$id_reporter);
+		$this->db->where("b.tanggal_pembuatan >=",date('Y-m-d H:i:s', strtotime($start_date)));
+		$this->db->where("b.tanggal_pembuatan <=",date('Y-m-d H:i:s', strtotime($end_date)));
 		$this->db->group_by("bulan");
 		$this->db->order_by("bulan ASC");
 		$query = $this->db->get();
