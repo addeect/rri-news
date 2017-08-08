@@ -10,8 +10,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a>Naskah</a></li>
-        <li><a href="<?php echo site_url('reporter/kinerja') ?>">Kinerja Reporter</a></li>
+        <li ><a href="<?php echo site_url('reporter/naskah') ?>">Naskah</a></li>
+        <li class="active"><a >Kinerja Reporter</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
     </div>
@@ -28,8 +28,8 @@
       <h2><?php echo $_SESSION['role'] ?></h2>
       <!--h2><a><?php // echo $_SESSION['sess_namalok'] ?></a></h2-->
       <ul class="nav nav-pills nav-stacked kustom_sidebar">
-        <li class="active"><a>Naskah</a></li>
-        <li><a href="<?php echo site_url('reporter/kinerja') ?>">Kinerja Reporter</a></li>
+        <li ><a href="<?php echo site_url('reporter/naskah') ?>">Naskah</a></li>
+        <li class="active"><a >Kinerja Reporter</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
       <br>
@@ -39,41 +39,38 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="text-center" style="padding:10px 0 20px 0">
-            <h3>Naskah Berita</h3>
-            <div class="action_button1"><a class="btn btn-sm btn-primary" href="<?php echo site_url('reporter/buat-berita') ?>">BUAT BARU +</a></div>
+            <h3>Rekapan Kinerja Reporter</h3>
+            
           </div>
           <div class="table-responsive">
             <table class="table  table-bordered">
               <thead>
                 <tr style="background-color:#bfe2ff">
                   <th>No</th>
-                  <th>Berita</th>
-                  <th>Tanggal</th>
-                  <th>Waktu</th>
-                  <th>Topik</th>
-                  <th>Rekaman</th>
-                  <th>Hot News</th>
+                  <th>Bulan</th>
+                  <th>Tahun</th>
+                  <th>Berita Masuk</th>
+                  <th>Berita Hot</th>
+                  <th>Target Berita Masuk</th>
                 </tr>
               </thead>
               <tbody class="isi_tabel">
-                <?php $start=1; foreach ($berita as $data_berita) { ?>
-                  <?php $sts=$data_berita->TANGGAL_EDIT; $revisi=$data_berita->STATUS_REVISI; if($sts!=null){echo "<tr style='background-color: #f4f4f4;' >";}else{ echo "<tr style='font-weight:bold'>";} ?>
-                    <td><?php echo $start++ ?></td>
-                    <td><a style="float:left; width:100%;"  href="<?php if($sts!=null){echo site_url('reporter/editor/');}else{echo site_url('reporter/viewer/');}  echo "/"; echo $data_berita->ID ?>"><?php echo $data_berita->JUDUL ?>...</a><div style="float:left;" class="<?php if($revisi==='DIEDIT OLEH REPORTER'){echo 'pY';}elseif($revisi==='DIEDIT OLEH REDAKSI'){echo 'pH';} ?>"></div><div style="float:left"><span style="padding-left: 7px;"><?php if($revisi==='DIEDIT OLEH REPORTER'){echo 'Belum dicek oleh redaksi';}elseif($revisi==='DIEDIT OLEH REDAKSI'){echo '<strong>Sudah dicek oleh redaksi</strong>';} ?></span></div></td>
-                    <td><?php echo date('d-M-Y', strtotime($data_berita->TANGGAL_PEMBUATAN)) ?></td>
-                    <td><?php echo date('H:i', strtotime($data_berita->TANGGAL_PEMBUATAN)) ?></td>
-                    <td><?php echo $data_berita->NAMA_KATEGORI ?></td>
-                    <td><?php $status=$data_berita->PATH; if($status!=null){ ?>
-                    <audio controls>
-                    <source src="<?php echo base_url('uploads'); echo '/'; echo str_replace(" ","_",$data_berita->PATH) ?>" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                    </audio>
-                    <?php } else { echo "File Tidak Ditemukan";} ?>
-                    <td class="hot_news"><?php $hot_news = $data_berita->REWARD; if($hot_news!=null){echo "<img style='width:50px' src='".base_url('assets/img/hot-news.jpg')."' />";} ?></td>
-                  </td>
-                  </tr>
-                <?php } ?>
-                
+                <?php $start=1; $total_berita=0; $total_hot=0; $target=66; foreach ($kinerja_reporter as $key) { ?>
+                <tr>
+                  <td><?php echo $start++; ?></td>
+                  <td><?php echo $key->bulan; ?></td>
+                  <td><?php echo $key->tahun; ?></td>
+                  <td><?php echo $key->jumlah_berita; ?></td>
+                  <td><?php echo $key->jumlah_hot_news; ?></td>
+                  <td><?php echo $target; ?></td>
+                </tr>
+                <?php $total_berita = $total_berita + floatval($key->jumlah_berita); $total_hot = $total_hot + floatval($key->jumlah_hot_news); $total_target = $total_target + floatval($target); } ?>
+                <tr>
+                  <td colspan="3">Total</td>
+                  <td><?php echo $total_berita; ?></td>
+                  <td><?php echo $total_hot; ?></td>
+                  <td><?php echo $total_target; ?></td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -3,19 +3,24 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
-	function getReportEmployee($id_reporter,$start_date,$end_date){
+	function getReportEmployee($id_reporter,$start_date = null,$end_date = null){
 
 		$this->db->select("
 			month(b.tanggal_pembuatan) as month,
 			monthname(b.tanggal_pembuatan) as bulan,
+			year(b.tanggal_pembuatan) as tahun,
 			count(*) as jumlah_berita,
 			IF(sum(b.hot_news) IS NULL,'0',sum(b.hot_news)) AS jumlah_hot_news,
 			u.nama_user as nama");
 		$this->db->from("berita b");
 		$this->db->join("user u","b.id_user=u.id_user");
 		$this->db->where("b.id_user",$id_reporter);
-		$this->db->where("b.tanggal_pembuatan >=",date('Y-m-d H:i:s', strtotime($start_date)));
-		$this->db->where("b.tanggal_pembuatan <=",date('Y-m-d H:i:s', strtotime($end_date)));
+		if($start_date){
+			$this->db->where("b.tanggal_pembuatan >=",date('Y-m-d H:i:s', strtotime($start_date)));
+		}
+		if($end_date){
+			$this->db->where("b.tanggal_pembuatan <=",date('Y-m-d H:i:s', strtotime($end_date)));
+		}
 		$this->db->group_by("bulan");
 		$this->db->order_by("bulan ASC");
 		$query = $this->db->get();

@@ -55,6 +55,7 @@ $route['register/complete'] = 'register/complete';
 // $route['redaksi/viewer'] = 'register/index/viewer';
 $route['redaksi/daftar-berita-approved'] = 'redaksi/index/daftar-berita-approved';
 $route['reporter/naskah'] = 'reporter/index/naskah';
+$route['reporter/kinerja'] = 'reporter/index/kinerja';
 $route['kabid/master-reward'] = 'kabid/index/master-reward';
 $route['kabid/master-pegawai'] = 'kabid/index/daftar-pegawai';
 $route['kabid/master-kategori'] = 'kabid/index/master-kategori';

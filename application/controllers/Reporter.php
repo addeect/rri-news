@@ -17,6 +17,7 @@ class Reporter extends CI_Controller {
 		$data=array(
 			'berita' => $this->m_main->getData3($user_id),
 			'jml_berita_telah_dicek' => $this->m_main->getData1_baru_numrow_telah_dicek($user_id),
+			'kinerja_reporter' => $this->m_main->getReportEmployee($user_id),
 			'kategori' => $this->m_main->getData4(),
 			'reward' => $this->m_main->getData5(),
 			'title' => ucwords($title),
