@@ -22,6 +22,7 @@ class Kabid extends CI_Controller {
 			'kategori_aktif' => $this->m_main->getDataKategoriAktif(),
 			'hasil_reward' => $this->m_main->getDataEvaluasi2(),
 			'get_reporter_all' => $this->m_main->getReporterAll(),
+			'reporter_terbaik' => $this->m_main->getReporterBest(),
 			'title' => ucwords($title),
 			'page_name' => $page_name
 		);
@@ -34,7 +35,17 @@ class Kabid extends CI_Controller {
 	// -- TOP FUNCTION --
 	function dashboard1(){
 		//$dataLaporan = $this->m_main->getReportMonth();
-		$data = array('dataLaporan' => $this->m_main->getReportMonth() );
+		
+		$start_date = date('Y-m-d H:i:s',strtotime($this->input->post("start_date")));
+		$end_date = date('Y-m-d H:i:s',strtotime($this->input->post("end_date")));
+		if(strlen($start_date) == 0){
+			$start_date = null;
+		}
+		if(strlen($end_date) == 0){
+			$end_date = null;
+		}
+		// var_dump($start_date." + ".$end_date);die();
+		$data = array('dataLaporan' => $this->m_main->getReporterBest($start_date,$end_date) );
 		$this->load->view('ajax/dashboard1',$data);
 	}
 	function getEmployeeReport(){

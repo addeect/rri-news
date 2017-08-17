@@ -3,6 +3,26 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function getReporterBest($start_date = null, $end_date = null){
+		$this->db->select("
+			u.NAMA_USER,
+			count(*) as jumlah,
+			b.*");
+		$this->db->from("berita b");
+		$this->db->join("user u", "b.ID_USER = u.ID_USER");
+		if($start_date != null){
+			$this->db->where("b.tanggal_pembuatan >=",$start_date);
+		}
+		if($end_date != null){
+			$this->db->where("b.tanggal_pembuatan <=",$end_date);
+		}
+		$this->db->group_by("u.ID_USER");
+		$this->db->order_by("jumlah DESC");
+		$this->db->limit("5");
+
+		$q = $this->db->get();
+		return $q->result();
+	}
 	function getReportEmployee($id_reporter,$start_date = null,$end_date = null){
 
 		$this->db->select("

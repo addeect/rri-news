@@ -72,7 +72,7 @@
               <span class="glyphicon glyphicon-cog"></span>&nbsp;PENGATURAN
             </button>
             <span class="glyphicon glyphicon-signal pull-left" style="font-size:20px;color:#3554a2"></span>
-            <h3>&nbsp;5 REPORTER TERBAIK</h3>
+            <h3 id="title_grafik">&nbsp;5 REPORTER TERBAIK<span id="periode_grafik"> - Semua Periode</span></h3>
             <div class="row">
               <div class="col-sm-6">
                 <div style="padding:20px 0">
@@ -93,36 +93,14 @@
                       </tr>
                     </thead>
                     <tbody>
+                    <?php $count=1; foreach ($reporter_terbaik as $key) { ?>
                       <tr>
-                        <th><div class="legend_1"></div></th>
-                        <td>1</td>
-                        <td>Jojo</td>
-                        <td>103</td>
+                        <td><div class="legend_<?php echo $count; ?>"></div></td>
+                        <td><?php echo $count; ?></td>
+                        <td><?php echo $key->NAMA_USER; ?></td>
+                        <td><?php echo $key->jumlah; ?></td>
                       </tr>
-                      <tr>
-                        <th><div class="legend_2"></div></th>
-                        <td>2</td>
-                        <td>Vito</td>
-                        <td>98</td>
-                      </tr>
-                      <tr>
-                        <th><div class="legend_3"></div></th>
-                        <td>3</td>
-                        <td>Pri</td>
-                        <td>96</td>
-                      </tr>
-                      <tr>
-                        <th><div class="legend_4"></div></th>
-                        <td>4</td>
-                        <td>Pakpo</td>
-                        <td>95</td>
-                      </tr>
-                      <tr>
-                        <th><div class="legend_5"></div></th>
-                        <td>5</td>
-                        <td>Adam</td>
-                        <td>91</td>
-                      </tr>
+                    <?php $count++; } ?>
                     </tbody>
                   </table>
                 </div>
@@ -203,8 +181,18 @@
 </div>
 <script type="text/javascript" src="<?php echo base_url('assets/js/Chart.bundle.min.js') ?>"></script>
 <script>
-var nama = ["Jojo","Vito","Pri","Pakpo","Adam"];
-var nilai = [103,98,96,95,91];
+var nama = [<?php
+    foreach ($reporter_terbaik as $key) {
+        $arr_nama[] = '"'.$key->NAMA_USER.'"';
+     } echo implode(',', $arr_nama)?>];
+
+var nilai = [<?php
+    foreach ($reporter_terbaik as $key) {
+        $arr_nilai[] = '"'.$key->jumlah.'"';
+     } echo implode(',', $arr_nilai)?>];
+
+// var nama = ["Jojo","Vito","Pri","Pakpo","Adam"];
+// var nilai = [103,98,96,95,91];
 var data_laporan_bulanan = {
         labels: nama,
         datasets: [
@@ -289,8 +277,10 @@ $(document).ready(function(){
       {
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
       }
+      var start_date = $('#datepicker_1').val();
+      var end_date = $('#datepicker_2').val();
       var url = "<?php echo site_url('kabid/dashboard1') ?>";
-      var params = "status=berhasil";
+      var params = "status=berhasil&start_date="+start_date+"&end_date="+end_date;
       xmlhttp.open("POST", url, true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xmlhttp.onreadystatechange = function()
