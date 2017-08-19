@@ -92,7 +92,7 @@
                         <th>Poin</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table_legend">
                     <?php $count=1; foreach ($reporter_terbaik as $key) { ?>
                       <tr>
                         <td><div class="legend_<?php echo $count; ?>"></div></td>
@@ -181,6 +181,9 @@
 </div>
 <script type="text/javascript" src="<?php echo base_url('assets/js/Chart.bundle.min.js') ?>"></script>
 <script>
+var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
 var nama = [<?php
     foreach ($reporter_terbaik as $key) {
         $arr_nama[] = '"'.$key->NAMA_USER.'"';
@@ -267,105 +270,113 @@ $(document).ready(function(){
     // ----------------------------------- DYNAMIC PIE CHART - ACW - 23/03/17 ------------------------------- //
     $("#drawChart").click(function(){
       
-
-      // AJAX START
-      if(window.XMLHttpRequest)
-      {
-        xmlhttp = new XMLHttpRequest();
-      }
-      else
-      {
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-      }
+      // NEW METHOD 2017-08-19 12:55 GMT +7
+      // START ------------------
       var start_date = $('#datepicker_1').val();
       var end_date = $('#datepicker_2').val();
-      var url = "<?php echo site_url('kabid/dashboard1') ?>";
-      var params = "status=berhasil&start_date="+start_date+"&end_date="+end_date;
-      xmlhttp.open("POST", url, true);
-      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function()
-      {
-        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
-        {
-          // DELETE CHART
-      hapusChart();
-      //sleep
-        
-          var data = xmlhttp.responseText;
-          var explode = data.split(';');
+      var start_date_01 = new Date(start_date);
+      var end_date_01 = new Date(end_date);
 
-          //document.getElementById("isi_tabel_gangguan_berulang").innerHTML=explode[0];
-          // var nama_updated = explode[1];
-          // var nilai_updated = explode[0];
+      var hari = start_date_01.getDate();
+      var bulan = monthNames[start_date_01.getMonth()];
+      var tahun = start_date_01.getFullYear();
 
-          var name_1 = explode[0];
-          var name_2 = explode[1];
-          var name_3 = explode[2];
-          var name_4 = explode[3];
-          var name_5 = explode[4];
-          var a = explode[5];
-          var b = explode[6];
-          var c = explode[7];
-          var d = explode[8];
-          var e = explode[9];
-          var bgcolor = ["#d96557",
+      var hari_01 = end_date_01.getDate();
+      var bulan_01 = monthNames[end_date_01.getMonth()];
+      var tahun_01 = end_date_01.getFullYear();
+
+      var request = $.ajax({
+        url: "<?php echo site_url('kabid/dashboard1') ?>",
+        method: "POST",
+        data: {
+          start_date : start_date,
+          end_date : end_date
+        },
+        dataType: "json"
+      });
+
+      var bgcolor = ["#d96557",
                         "#2ECC71",
                         "#ffc65d",
                         "#e0e8f2",
                         "#4C5064"];
-          var hbgcolor = ["#f1b3ab",
-                        "#75eca8",
-                        "#fddc9e",
-                        "#c0c5cc",
-                        "#8e909a"];
-          //nama
-          //nama.unshift = (explode[1]);
-          //nilai.unshift = (explode[0]);
-          // UPDATE DATASET
-          data_laporan_bulanan = {
-            labels: [name_1,name_2,name_3,name_4,name_5],
-            datasets: [
-                {
-                    data: [a,b,c,d,e],
-                    backgroundColor: bgcolor
-                    ,
-                    hoverBackgroundColor: hbgcolor
-                }]
-        };
+      var hbgcolor = ["#f1b3ab",
+                    "#75eca8",
+                    "#fddc9e",
+                    "#c0c5cc",
+                    "#8e909a"];
 
-        // UPDATE CONFIG
-        config_laporan_bulanan = {
-                type: 'doughnut',
-                data: data_laporan_bulanan,
-                options: {legend:true,
-                tooltips: {
-                    // callbacks: {
-                    //     label: function(tooltipItem, data) {
-                    //         var allData = data.datasets[tooltipItem.datasetIndex].data;
-                    //         var tooltipLabel = data.labels[tooltipItem.index];
-                    //         var tooltipData = allData[tooltipItem.index];
-                    //         var total = 0;
-                    //         for (var i in allData) {
-                    //             total += allData[i];
-                    //         }
-                    //         var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                    //         return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
-                    //     }
-                    // }
-                }
-            }
-        };
-          //document.getElementById("cursor_gangguan_berulang").innerHTML=explode[1];
-          drawChart();
-          //console.log(data+nama);
-          //updateChart();
-          //alert(nama+" + "+nilai);
+      request.done(function( data_q ) {
+        if ($.isEmptyObject(data_q)){
+          alert("Data Kosong");
         }
-      }
-      xmlhttp.send(params);
-      
+        else{
+          
+          hapusChart();
 
-    // DRAW THE CHART WITH NEW DATA
+          $('tbody#table_legend').empty();
+
+          var new_nama = [];
+          var new_nilai = [];
+          var arr_length = data_q.length;
+          var i = 0;
+          // alert(counter);
+          for ( i = 0; i < arr_length; i++) {
+            new_nama.push(data_q[i].NAMA_USER);
+            new_nilai.push(data_q[i].jumlah);
+          }
+          // alert(new_nama);
+          data_laporan_bulanan = {
+              labels: new_nama,
+              datasets: [
+                  {
+                      data: new_nilai,
+                      backgroundColor: bgcolor
+                      ,
+                      hoverBackgroundColor: hbgcolor
+                  }]
+          };
+
+          // UPDATE CONFIG
+          config_laporan_bulanan = {
+                  type: 'doughnut',
+                  data: data_laporan_bulanan,
+                  options: {legend:true,
+                  tooltips: {
+                      // callbacks: {
+                      //     label: function(tooltipItem, data) {
+                      //         var allData = data.datasets[tooltipItem.datasetIndex].data;
+                      //         var tooltipLabel = data.labels[tooltipItem.index];
+                      //         var tooltipData = allData[tooltipItem.index];
+                      //         var total = 0;
+                      //         for (var i in allData) {
+                      //             total += allData[i];
+                      //         }
+                      //         var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                      //         return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                      //     }
+                      // }
+                  }
+              }
+          };
+
+          drawChart();
+          $('#periode_grafik').html(' - Periode '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01);
+          for ( i = 0; i < arr_length; i++) {
+            $('tbody#table_legend').append(
+              '<tr><td><div class="legend_'+(i+1)+'"></div></td><td>'+(i+1)+'</td><td>'+data_q[i].NAMA_USER+'</td><td>'+data_q[i].jumlah+'</td></tr>'
+              );
+          }
+          
+
+        }
+      });
+
+      request.fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+        console.log(jqXHR);
+      });
+      
           
     });
     

@@ -45,8 +45,8 @@ class Kabid extends CI_Controller {
 			$end_date = null;
 		}
 		// var_dump($start_date." + ".$end_date);die();
-		$data = array('dataLaporan' => $this->m_main->getReporterBest($start_date,$end_date) );
-		$this->load->view('ajax/dashboard1',$data);
+		$data = $this->m_main->getReporterBest($start_date,$end_date);
+		echo json_encode($data);
 	}
 	function getEmployeeReport(){
 		$id_reporter = $_POST["id_reporter"];
