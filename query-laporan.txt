@@ -3,3 +3,20 @@ monthname(tanggal_pembuatan) as bulan,
 count(*) as jumlah_berita,
 sum(hot_news) as jumlah_hot_news
 from berita where id_user="jojo" group by bulan asc
+
+rekap per kategori
+==================
+select month(b.tanggal_pembuatan) as month,
+			monthname(b.tanggal_pembuatan) as bulan,
+			year(b.tanggal_pembuatan) as tahun,
+			k.NAMA_KATEGORI,
+			b.JUDUL,
+			u.nama_user as nama,
+			b.TANGGAL_PEMBUATAN,
+			b.HOT_NEWS,
+			IF(b.HOT_NEWS IS NULL,'','Hot News') AS keterangan
+from berita b
+join user u ON b.id_user=u.id_user
+join kategori k ON k.ID_KATEGORI=b.ID_KATEGORI
+group by b.ID_BERITA
+order by b.TANGGAL_PEMBUATAN asc

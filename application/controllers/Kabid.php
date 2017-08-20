@@ -23,6 +23,7 @@ class Kabid extends CI_Controller {
 			'hasil_reward' => $this->m_main->getDataEvaluasi2(),
 			'get_reporter_all' => $this->m_main->getReporterAll(),
 			'reporter_terbaik' => $this->m_main->getReporterBest(),
+			// 'rekap_kategori' => $this->m_main->getCategory(),
 			'title' => ucwords($title),
 			'page_name' => $page_name
 		);
@@ -47,6 +48,23 @@ class Kabid extends CI_Controller {
 		// var_dump($start_date." + ".$end_date);die();
 		$data = $this->m_main->getReporterBest($start_date,$end_date);
 		echo json_encode($data);
+	}
+	function getCategoryReport(){
+		$id_kategori = $_POST["id_kategori"];
+		// $start_date = date('Y-m-d H:i:s',strtotime($this->input->post("start_date")));
+		// $end_date = date('Y-m-d H:i:s',strtotime($this->input->post("end_date")));
+		// var_dump($start_date);die();
+		$start_date = null;
+		$end_date = null;
+		if(strlen($this->input->post("start_date")) > 0){
+			$start_date = date('Y-m-d H:i:s',strtotime($this->input->post("start_date")));
+		}
+		if(strlen($this->input->post("end_date")) > 0){
+			$end_date = date('Y-m-d H:i:s',strtotime($this->input->post("end_date")));
+		}
+		$this->load->model('m_main');
+		$data_reporter = $this->m_main->getCategoryNews($id_kategori,$start_date,$end_date);
+		echo json_encode($data_reporter);
 	}
 	function getEmployeeReport(){
 		$id_reporter = $_POST["id_reporter"];

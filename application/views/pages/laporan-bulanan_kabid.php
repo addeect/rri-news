@@ -17,6 +17,7 @@
         <li><a href="<?php echo site_url('kabid/hasil-reward') ?>">Hasil Reward</a></li>
         <li class="active"><a>Rekapitulasi Reward</a></li>
         <li><a href="<?php echo site_url('kabid/laporan-tahunan') ?>">Rekapitulasi Reporter</a></li>
+        <li><a href="<?php echo site_url('kabid/laporan-kategori') ?>">Laporan Judul Berita Per Kategori</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
     </div>
@@ -40,6 +41,7 @@
         <li><a href="<?php echo site_url('kabid/hasil-reward') ?>">Hasil Reward</a></li>
         <li class="active"><a>Rekapitulasi Reward</a></li>
         <li><a href="<?php echo site_url('kabid/laporan-tahunan') ?>">Rekapitulasi Reporter</a></li>
+        <li><a href="<?php echo site_url('kabid/laporan-kategori') ?>">Laporan Judul Berita Per Kategori</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
       <br>

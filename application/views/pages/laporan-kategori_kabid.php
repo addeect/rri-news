@@ -17,8 +17,8 @@
         <li><a href="<?php echo site_url('kabid/master-kategori') ?>">Master Kategori</a></li>
         <li><a href="<?php echo site_url('kabid/hasil-reward') ?>">Hasil Reward</a></li>
         <li><a href="<?php echo site_url('kabid/laporan-bulanan') ?>">Rekapitulasi Reward</a></li>
-        <li class="active"><a>Rekapitulasi Reporter</a></li>
-        <li><a href="<?php echo site_url('kabid/laporan-kategori') ?>">Laporan Judul Berita Per Kategori</a></li>
+        <li><a href="<?php echo site_url('kabid/laporan-tahunan') ?>">Rekapitulasi Reporter</a></li>
+        <li class="active"><a>Laporan Judul Berita Per Kategori</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
     </div>
@@ -41,8 +41,8 @@
         <li><a href="<?php echo site_url('kabid/master-kategori') ?>">Master Kategori</a></li>
         <li><a href="<?php echo site_url('kabid/hasil-reward') ?>">Hasil Reward</a></li>
         <li><a href="<?php echo site_url('kabid/laporan-bulanan') ?>">Rekapitulasi Reward</a></li>
-        <li class="active"><a>Rekapitulasi Reporter</a></li>
-        <li><a href="<?php echo site_url('kabid/laporan-kategori') ?>">Laporan Judul Berita Per Kategori</a></li>
+        <li><a href="<?php echo site_url('kabid/laporan-tahunan') ?>">Rekapitulasi Reporter</a></li>
+        <li class="active"><a>Laporan Judul Berita Per Kategori</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
       <br>
@@ -53,16 +53,17 @@
       <div class="row">
         <div class="col-sm-12">
           <div>
-            <h3 class="text-center">Laporan Per Reporter</h3>
+            <h3 class="text-center">Laporan Judul Berita Per Kategori</h3>
           </div>
           <div class="row-fluid" style="border-top: 1px solid gray;padding:10px 0"></div>
           <div class="row">
             <div class="col-sm-3">
               <div class="form-group">
-                <label>Nama Reporter</label>
-                <select id="id_reporter" name="id_reporter">
-                  <?php foreach ($get_reporter_all as $key) { ?>
-                      <option value="<?php echo $key->ID_USER; ?>"><?php echo $key->NAMA_USER; ?></option>
+                <label>Kategori Berita</label>
+                <select id="id_kategori" name="id_kategori">
+                      <option value="ALL">SEMUA</option>
+                  <?php foreach ($kategori_aktif as $key) { ?>
+                      <option value="<?php echo $key->ID_KATEGORI; ?>"><?php echo $key->NAMA_KATEGORI; ?></option>
                   <?php } ?>
                 </select>
               </div>
@@ -119,10 +120,10 @@ $(document).ready(function(){
 
   // CETAK PDF
   $('#btn_cetak').click(function(){
-      var id_reporter = $('#id_reporter').val();
+      var id_kategori = $('#id_kategori').val();
       var tgl_awal = $('#start_date').val();
       var tgl_akhir = $('#end_date').val();
-      var url = "<?php echo site_url('kabid/laporan_pdf'); ?>?id="+id_reporter+"&tgl_awal="+tgl_awal+"&tgl_akhir="+tgl_akhir;
+      var url = "<?php echo site_url('kabid/laporan_kategori'); ?>?id="+id_kategori+"&tgl_awal="+tgl_awal+"&tgl_akhir="+tgl_akhir;
       var win = window.open(url, '_blank');
         win.focus();
   });
@@ -139,7 +140,7 @@ $(document).ready(function(){
     $('#loading').addClass('glyphicon-cog gly-spin');
     $('#text_message').html("Loading . . .");
 
-    var id_reporter = $('select#id_reporter').val();
+    var id_kategori = $('select#id_kategori').val();
     var start_date = $('input#start_date').val();
     var end_date = $('input#end_date').val();
 
@@ -155,13 +156,13 @@ $(document).ready(function(){
     var hari_01 = end_date_01.getDate();
     var bulan_01 = monthNames[end_date_01.getMonth()];
     var tahun_01 = end_date_01.getFullYear();
-    // alert(id_reporter);
+    // alert(id_kategori);
     // AJAX START
     var request = $.ajax({
-      url: "<?php echo site_url('kabid/getEmployeeReport') ?>",
+      url: "<?php echo site_url('kabid/getCategoryReport') ?>",
       method: "POST",
       data: {
-        id_reporter : id_reporter,
+        id_kategori : id_kategori,
         start_date : start_date,
         end_date : end_date
       },
@@ -184,11 +185,21 @@ $(document).ready(function(){
           $('#loading').addClass('hidden');
           $('#text_message').addClass('hidden');
             // $('div#report').html('<table class="table table-responsive table-bordered" id="table_report">');
-            $('label#name_01').html('Nama : '+data[0].nama);
-            $('label#period_01').html('Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01);
+            if (id_kategori == "ALL"){
+              $('label#name_01').html('Nama Kategori : SEMUA');
+            }
+            else{
+              $('label#name_01').html('Nama Kategori : '+data[0].NAMA_KATEGORI);
+            }
+            if ($.isEmptyObject(start_date) || $.isEmptyObject(end_date)){
+              $('label#period_01').html('Periode : Semua Periode');
+            }
+            else{
+              $('label#period_01').html('Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01);
+            }
             
             $('table#table_report').append(
-              '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr></thead>'
+              '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Kategori Berita</td><td>Judul Berita</td><td>Nama Reporter</td><td>Tanggal</td><td>Keterangan</td></tr></thead>'
               );
             $('table#table_report').append('<tbody>');
             
@@ -198,15 +209,15 @@ $(document).ready(function(){
             for (i = 0; i < data.length ; i++) {
               // i = 1;
                 $('tbody').append(
-                  '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+                  '<tr><td>'+(i+1)+'</td><td>'+data[i].NAMA_KATEGORI+'</td><td>'+data[i].JUDUL+'</td><td>'+data[i].nama+'</td><td>'+data[i].day+' '+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].keterangan+'</td></tr>');
 
-                berita_count = berita_count + parseFloat(data[i].jumlah_berita);
-                hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
+                // berita_count = berita_count + parseFloat(data[i].jumlah_berita);
+                // hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
                 
             }
             // TOTAL
-            $('tbody').append(
-              '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
+            // $('tbody').append(
+            //   '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
             $('table#table_report').append('</tbody>');
             // $('div#report').append('</table>');
         }
@@ -224,12 +235,23 @@ $(document).ready(function(){
         else{
           $('#loading').addClass('hidden');
           $('#text_message').addClass('hidden');
-
-          $('div#report').append('<div class="form-group"><label id="name_01">Nama : '+data[0].nama+'</label></div>');
-          $('div#report').append('<div class="form-group"><label id="period_01">Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01+'</label></div>');
+          if (id_kategori == "ALL"){
+            $('div#report').append('<div class="form-group"><label id="name_01">Nama Kategori : SEMUA</label></div>');
+          }
+          else{
+            $('div#report').append('<div class="form-group"><label id="name_01">Nama Kategori : '+data[0].NAMA_KATEGORI+'</label></div>');
+          }
+          // alert(hari.length);
+          if ($.isEmptyObject(start_date) || $.isEmptyObject(end_date)){
+            $('div#report').append('<div class="form-group"><label id="period_01">Periode : Semua Periode</label></div>');
+          }
+          else{
+            $('div#report').append('<div class="form-group"><label id="period_01">Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01+'</label></div>');
+          }
+          
           $('div#report').append('<table class="table table-responsive table-bordered" id="table_report">');
           $('table#table_report').append(
-            '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr></thead>'
+            '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Kategori Berita</td><td>Judul Berita</td><td>Nama Reporter</td><td>Tanggal</td><td>Keterangan</td></tr></thead>'
             );
           $('table#table_report').append('<tbody>');
           
@@ -241,13 +263,13 @@ $(document).ready(function(){
             // i = 1;
              // alert(data[i].month);
               $('tbody').append(
-                '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
-              berita_count = berita_count + parseFloat(data[i].jumlah_berita);
-              hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
+                '<tr><td>'+(i+1)+'</td><td>'+data[i].NAMA_KATEGORI+'</td><td>'+data[i].JUDUL+'</td><td>'+data[i].nama+'</td><td>'+data[i].day+' '+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].keterangan+'</td></tr>');
+              // berita_count = berita_count + parseFloat(data[i].jumlah_berita);
+              // hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
           }
           // TOTAL
-          $('tbody').append(
-            '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
+          // $('tbody').append(
+          //   '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
 
           $('table#table_report').append('</tbody>');
           $('div#report').append('</table>');
@@ -265,7 +287,7 @@ $(document).ready(function(){
     });
   });
 
-  $('select#id_reporter').selectize({
+  $('select#id_kategori').selectize({
       sortField: 'text'
       }
   );

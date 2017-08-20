@@ -23,6 +23,37 @@ class M_main extends CI_Model{
 		$q = $this->db->get();
 		return $q->result();
 	}
+	function getCategoryNews($id_kategori,$start_date = null,$end_date = null){
+
+		$this->db->select("
+			day(b.tanggal_pembuatan) as day,
+			month(b.tanggal_pembuatan) as month,
+			monthname(b.tanggal_pembuatan) as bulan,
+			year(b.tanggal_pembuatan) as tahun,
+			k.NAMA_KATEGORI,
+			b.JUDUL,
+			u.nama_user as nama,
+			b.TANGGAL_PEMBUATAN,
+			b.HOT_NEWS,
+			IF(b.HOT_NEWS IS NULL,'','Hot News') AS keterangan");
+		$this->db->from("berita b");
+		$this->db->join("user u","b.id_user=u.id_user");
+		$this->db->join("kategori k","k.ID_KATEGORI=b.ID_KATEGORI");
+		if($id_kategori != "ALL"){
+			$this->db->where("b.id_kategori",$id_kategori);
+		}
+		if($start_date != null){
+			$this->db->where("b.tanggal_pembuatan >=",date('Y-m-d H:i:s', strtotime($start_date)));
+		}
+		if($end_date != null){
+			$this->db->where("b.tanggal_pembuatan <=",date('Y-m-d H:i:s', strtotime($end_date)));
+		}
+		$this->db->group_by("b.ID_BERITA");
+		$this->db->order_by("b.TANGGAL_PEMBUATAN ASC");
+		$query = $this->db->get();
+
+		return $query->result();
+	}
 	function getReportEmployee($id_reporter,$start_date = null,$end_date = null){
 
 		$this->db->select("

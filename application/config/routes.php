@@ -63,6 +63,7 @@ $route['kabid/hasil-reward'] = 'kabid/index/hasil-reward';
 $route['kabid/evaluasi'] = 'kabid/index/evaluasi';
 $route['kabid/laporan-bulanan'] = 'kabid/index/laporan-bulanan';
 $route['kabid/laporan-tahunan'] = 'kabid/index/laporan-tahunan';
+$route['kabid/laporan-kategori'] = 'kabid/index/laporan-kategori';
 $route['kabid/cetak-laporan-bulanan'] = 'kabid/index/cetak-laporan-bulanan';
 //$route['redaksi/editor'] = 'redaksi/index/editor';
 $route['reporter/buat-berita'] = 'reporter/index/buat-berita';
