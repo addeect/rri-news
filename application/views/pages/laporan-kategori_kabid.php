@@ -100,7 +100,7 @@
                 <span id="loading" class="glyphicon glyphicon-tasks" style="font-size: 75px;color:gray;"></span>
               </div>
               <div class="text-center">
-                <h3 id="text_message" class="text-center">Pilih Reporter dan Periode Terlebih Dahulu. Lalu Klik <strong>Tampilkan</strong></h3>
+                <h3 id="text_message" class="text-center">Pilih Kategori dan Isi Tanggal Terlebih Dahulu. Lalu Klik <strong>Tampilkan</strong></h3>
               </div>
             </div>
           </div>

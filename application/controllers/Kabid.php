@@ -173,7 +173,7 @@ class Kabid extends CI_Controller {
 		//$pdf->Write(5, 'Some sample text');
 		$pdf->Output('Reporter-'.$id_reporter.'-'.date('Y-m-d H:i:s').'.pdf', 'I');
 	}
-	function cetakLaporanTahunan(){
+	function cetakLaporanBulanan(){
 		$this->load->library('Pdf');
 		$tahun = $this->input->get('tahun');
 		$bulan = $this->input->get('bulan');
@@ -263,6 +263,9 @@ class Kabid extends CI_Controller {
 		//$pdf->lastPage();
 		//$pdf->Write(5, 'Some sample text');
 		$pdf->Output('Laporan-Tahunan.pdf', 'I');
+	}
+	function cetakLaporanTahunan(){
+		
 	}
 	function hapusKategori(){
 		$this->load->model('m_update');
