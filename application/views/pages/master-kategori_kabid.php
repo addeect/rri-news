@@ -15,7 +15,7 @@
         <li><a href="<?php echo site_url('kabid/master-pegawai') ?>">Data Pegawai</a></li>
         <li class="active"><a>Master Kategori</a></li>
         <li><a href="<?php echo site_url('kabid/hasil-reward') ?>">Hasil Reward</a></li>
-        <li><a href="<?php echo site_url('kabid/laporan-bulanan') ?>">Rekapitulasi Bulanan</a></li>
+        <li><a href="<?php echo site_url('kabid/laporan-bulanan') ?>">Rekapitulasi Reward</a></li>
         <li><a href="<?php echo site_url('kabid/laporan-tahunan') ?>">Rekapitulasi Reporter</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
@@ -38,7 +38,7 @@
         <li><a href="<?php echo site_url('kabid/master-pegawai') ?>">Data Pegawai</a></li>
         <li class="active"><a>Master Kategori</a></li>
         <li><a href="<?php echo site_url('kabid/hasil-reward') ?>">Hasil Reward</a></li>
-        <li><a href="<?php echo site_url('kabid/laporan-bulanan') ?>">Rekapitulasi Bulanan</a></li>
+        <li><a href="<?php echo site_url('kabid/laporan-bulanan') ?>">Rekapitulasi Reward</a></li>
         <li><a href="<?php echo site_url('kabid/laporan-tahunan') ?>">Rekapitulasi Reporter</a></li>
         <li><a href="<?php echo site_url('logout') ?>">Logout</a></li>
       </ul>
