@@ -94,9 +94,17 @@ class M_main extends CI_Model{
 
 		return $query->result();
 	}
+	function getMonth(){
+		$this->db->select("MONTH(TANGGAL_PEMBUATAN) as month");
+		$this->db->from("berita");
+		$this->db->group_by("month");
+		$query = $this->db->get();
+
+		return $query->result();
+	}
 	function getReportYear($tahun = null,$bulan = null){
 
-		$this -> db -> select(" u.NAMA_USER 'NAMA_USER', IF(count(*) IS NULL,'0',count(*)) AS jumlah_berita, IF(sum(b.hot_news) IS NULL,'0',sum(b.hot_news)) AS jumlah_reward,");
+		$this -> db -> select(" u.NAMA_USER 'NAMA_USER', IF(count(*) IS NULL,'0',count(*)) AS jumlah_berita, IF(sum(b.hot_news) IS NULL,'0',sum(b.hot_news)) AS jumlah_reward");
 		$this -> db -> from('berita b');
 		$this -> db -> join('user u','b.ID_USER=u.ID_USER');
 		if($tahun){
@@ -112,6 +120,25 @@ class M_main extends CI_Model{
 
 	   $query = $this -> db -> get();
 		return $query->result();
+	}
+	function getReportYearNumRow($tahun = null,$bulan = null,$hot = null){
+
+		$this -> db -> select("*");
+		$this -> db -> from('berita b');
+		
+		if($tahun){
+			$this -> db -> where('YEAR(b.TANGGAL_DISETUJUI)',$tahun);
+		}
+		if($bulan){
+			$this -> db -> where('MONTH(b.TANGGAL_DISETUJUI)',$bulan);
+		}
+		if($hot){
+			$this -> db -> where('HOT_NEWS',$hot);
+		}
+		$this->db->order_by("1 DESC");
+
+	   $query = $this -> db -> get();
+		return $query->num_rows();
 	}
 	function getDataKategoriAktif(){
 		$this->db->select("ID_KATEGORI , NAMA_KATEGORI, STATUS_KATEGORI ");

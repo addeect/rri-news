@@ -192,7 +192,7 @@ class Kabid extends CI_Controller {
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
 		$pdf->SetAuthor('AddeectCodeWorks');
-		$pdf->SetTitle('Laporan Tahunan');
+		$pdf->SetTitle('Laporan Bulanan');
 		$pdf->SetSubject('RRI');
 		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -262,10 +262,158 @@ class Kabid extends CI_Controller {
 
 		//$pdf->lastPage();
 		//$pdf->Write(5, 'Some sample text');
-		$pdf->Output('Laporan-Tahunan.pdf', 'I');
+		$pdf->Output('Laporan-Bulanan.pdf', 'I');
 	}
 	function cetakLaporanTahunan(){
+		$this->load->library('Pdf');
+		$tahun = $this->input->get('tahun');
+		// $bulan_name = $this->input->get('bulan_name');
+		$month = $this->m_main->getMonth();
+		// $dataLaporan = $this->m_main->getReportYear($tahun,$bulan);
+		// $data_reward = $this->m_main->getReward();
 		
+		$monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+		    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+		  ];
+
+		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		// set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('AddeectCodeWorks');
+		$pdf->SetTitle('Laporan Tahunan');
+		$pdf->SetSubject('RRI');
+		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+		// set default header data
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Laporan Tahunan', PDF_HEADER_STRING);
+
+		// set header and footer fonts
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin('50');
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set font
+		$pdf->SetFont('dejavusans', '', 10);
+
+		$pdf->AddPage();
+		
+		// $html = '<span style="font-weight: bold;">EVALUASI PRESTASI KERJA REPORTER</span><br/><br/>';
+		$html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none"><b>EVALUASI PRESTASI KERJA REPORTER</b></span></div>';
+		$html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">Tahun : '.$tahun.'</span></div><br/><br/>';
+		// $html .= '<span style="font-weight: normal;">Tahun : '.$tahun.'</span><br/><br/>';
+		$html .= '<table>';
+		$html .= '<tr>';
+		$html .= '<td width="80px"></td>';
+		$html .= '<td width="500px">';
+		$html .='<table cellpadding="1" cellspacing="1" border="1" style="text-align:center;">
+		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="186px">Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr>';
+		$start = 1;
+		$total_masuk = 0;
+		$total_hot = 0;
+		// var_dump($month);die();
+		foreach ($month as $row)
+		{
+				$html .= "<tr>";
+		        $html .= "<td>".$start++."</td>";
+		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[$row->month]."</td>";
+		        $jml_berita = $this->m_main->getReportYearNumRow($tahun,$row->month);
+		        $jml_hot = $this->m_main->getReportYearNumRow($tahun,$row->month,1);
+		        $html .= "<td>".$jml_berita."</td>";
+		        $html .= "<td>".$jml_hot."</td>";
+		        $html .= "</tr>";
+		        $total_masuk = $total_masuk + floatval($jml_berita);
+		        $total_hot = $total_hot + floatval($jml_hot);
+		}
+		$html .= '<tr>';
+		$html .= '<td colspan="2"><b>TOTAL</b></td>';
+		$html .= '<td><b>'.$total_masuk.'</b></td>';
+		$html .= '<td><b>'.$total_hot.'</b></td>';
+		$html .= '</tr>';
+
+		$html .= '</table>';
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
+
+		$html .= '<br/>';
+		
+
+		$html .= '</span><br/>';
+		// Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline"></font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Mengetahui</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Bidang</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Deni Rizki</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+		// output the HTML content
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		//$pdf->lastPage();
+		//$pdf->Write(5, 'Some sample text');
+		$pdf->Output('Laporan-Bulanan.pdf', 'I');
 	}
 	function hapusKategori(){
 		$this->load->model('m_update');
