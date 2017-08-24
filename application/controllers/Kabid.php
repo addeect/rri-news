@@ -75,6 +75,97 @@ class Kabid extends CI_Controller {
 		$data_reporter = $this->m_main->getReportEmployee($id_reporter,$start_date,$end_date);
 		echo json_encode($data_reporter);
 	}
+	function laporan_kategori(){
+		$this->load->library('Pdf');
+		$start_date = $this->input->get('tgl_awal');
+		$end_date = $this->input->get('tgl_akhir');
+
+		$day_name = date('d',strtotime($start_date));
+		$month_name = date('m',strtotime($start_date));
+		$year_name = date('Y',strtotime($start_date));
+
+		$day_name_01 = date('d',strtotime($end_date));
+		$month_name_01 = date('m',strtotime($end_date));
+		$year_name_01 = date('Y',strtotime($end_date));
+
+		$id_kategori = $this->input->get('id');
+		// $bulan_name = $this->input->get('bulan_name');
+		$dataLaporan =  $this->m_main->getCategoryNews($id_kategori,$start_date,$end_date);
+		
+		$monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+		    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+		  ];
+
+		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		// set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('AddeectCodeWorks');
+		$pdf->SetTitle('Laporan Kategori');
+		$pdf->SetSubject('RRI');
+		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+		// set default header data
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'Laporan Kategori', PDF_HEADER_STRING);
+
+		// set header and footer fonts
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin('50');
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set font
+		$pdf->SetFont('dejavusans', '', 10);
+
+		$pdf->AddPage();
+		// var_dump(floatval($month_name));die();
+		$html = '<span style="font-weight: bold;">LAPORAN JUDUL BERITA PER KATEGORI</span><br/><br/>';
+		if (strlen($start_date) > 0 && strlen($end_date) > 0){
+			$html .= '<span style="font-weight: normal;">Periode : '.$day_name.' '.$monthNames[(floatval($month_name)-1)].' '.$year_name.' s/d '.$day_name_01.' '.$monthNames[(floatval($month_name_01)-1)].' '.$year_name_01.'</span><br/><br/>';
+		}
+		
+
+		$html .='<table cellpadding="1" cellspacing="1" border="1" style="text-align:center;">
+		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="186px">Kategori Berita</td><td>Judul Berita</td><td>Nama Reporter</td><td>Tanggal</td><td>Keterangan</td></tr>';
+		$start = 1;
+		// var_dump($reward);die();
+		foreach ($dataLaporan as $row)
+		{
+				$html .= "<tr>";
+		        $html .= "<td>".$start++."</td>";
+		        $html .= "<td style=\"text-align:left\">&nbsp;$row->NAMA_KATEGORI</td>";
+		        $html .= "<td>$row->JUDUL</td>";
+		        $html .= "<td>$row->nama</td>";
+		        $html .= "<td>".$row->day." ".$monthNames[(($row->month)-1)]." ".$row->tahun."</td>";
+		        $html .= "<td>".$row->keterangan."</td>";
+		        $html .= "</tr>";
+		}
+
+		$html .= '</table><br/>';
+		//$html .= '<br/><span style="font-weight: bold;">REKOMENDASI</span><br/>';
+		$html .= '<br/>';
+		
+		
+
+		$html .= '</span><br/>';
+		// output the HTML content
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		//$pdf->lastPage();
+		//$pdf->Write(5, 'Some sample text');
+		$pdf->Output('Laporan-Kategori.pdf', 'I');
+	}
 	function laporan_pdf(){
 		$this->load->library('Pdf');
 		$id_reporter = $this->input->get('id');
