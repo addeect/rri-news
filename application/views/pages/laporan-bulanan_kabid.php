@@ -160,7 +160,7 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-2">
               <label>Tahun</label>
-              <select name="tahun" id="tahun" class="form-control">
+              <select name="tahun2" id="tahun2" class="form-control">
                 <option value="2015">2015</option>
                 <option value="2016">2016</option>
                 <option value="2017">2017</option>
@@ -288,8 +288,7 @@ $(document).ready(function(){
         win.focus();
   });
   $('#btn_cetak_tahunan').click(function(){
-      var tahun = $('#tahun').val();
-      var bulan = $('#bulan').val();
+      var tahun = $('#tahun2').val();
       var url = "<?php echo site_url('kabid/cetakLaporanTahunan'); ?>?tahun="+tahun;
       var win = window.open(url, '_blank');
         win.focus();
