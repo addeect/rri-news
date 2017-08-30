@@ -21,7 +21,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="profile_picture_container">Belum terdaftar, klik link di bawah ini<br/><a href="register">Registrasi</a></div>
+                <!--div class="profile_picture_container">Belum terdaftar, klik link di bawah ini<br/><a href="register">Registrasi</a></div-->
             </div>
         </div>
     </div>
