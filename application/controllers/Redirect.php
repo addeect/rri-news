@@ -33,6 +33,10 @@ class Redirect extends CI_Controller {
 					$x=$this->session->set_userdata($data);			
 					redirect('reporter/naskah',$x);
 				}
+				elseif($cek == 'Redaksi'){
+					$x=$this->session->set_userdata($data);			
+					redirect('redaksi/home',$x);
+				}
 				elseif($cek == 'Kabid'){
 					$x=$this->session->set_userdata($data);			
 					redirect('kabid/evaluasi',$x);

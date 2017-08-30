@@ -17,7 +17,7 @@ body{
             <label>Jabatan</label>
             <select class="form-control" name="jabatan" id="jabatan">
               <option>Reporter</option>
-              <option>Redaksi</option>
+              <option>Editor</option>
             </select>
           </div>
           <div class="form-group">
