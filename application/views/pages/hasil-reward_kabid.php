@@ -66,7 +66,7 @@
               <td><?php echo $start++ ?></td>
               <td><?php echo $data_reward->NAMA_USER ?></td>
               <td><?php echo $data_reward->jumlah_berita ?></td>
-              <td><?php echo $data_reward->nominal_reward ?></td>
+              <td>Rp <?php echo number_format( $data_reward->nominal_reward , 0 , ',' , '.' ) ?></td>
             </tr>
             <?php } ?>
           </tbody>

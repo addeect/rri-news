@@ -63,6 +63,7 @@
                   <th>No</th>
                   <th>Nama Reporter</th>
                   <th>Berita</th>
+                  <th>Korektor</th>
                   <th>Tanggal Pembuatan</th>
                   <th>Waktu</th>
                   <th>Topik</th>
@@ -75,6 +76,7 @@
                     <td><?php echo $start++ ?></td>
                     <td><?php echo $data_berita->NAMA ?></td>
                     <td><a href="viewer/<?php echo $data_berita->ID ?>"><?php echo $data_berita->JUDUL ?>...</a><div class="<?php if($revisi==='DIEDIT OLEH REDAKSI'){echo 'pY';}elseif($revisi==='DIEDIT OLEH REPORTER'){echo 'pH';} ?>"></div></td>
+                    <td><?php echo ucwords($data_berita->REDAKSI) ?></td>
                     <td><?php echo date('d-M-Y', strtotime($data_berita->TANGGAL_PEMBUATAN)) ?></td>
                     <td><?php echo date('H:i', strtotime($data_berita->TANGGAL_PEMBUATAN)) ?></td>
                     <td><?php echo $data_berita->NAMA_KATEGORI ?></td>

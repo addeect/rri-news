@@ -1,0 +1,5 @@
+1. ALTER TABLE BERITA
+=====================
+tujuan : mengetahui siapa redaksi yang menyetujui berita reporter
+query : ALTER TABLE `berita`
+	ADD COLUMN `REDAKSI` VARCHAR(100) NULL DEFAULT NULL AFTER `TANGGAL_DISETUJUI`;

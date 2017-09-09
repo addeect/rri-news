@@ -261,7 +261,7 @@ class M_main extends CI_Model{
 		return $query->result();
 	}
 	function getData3($user_id){
-		$this -> db -> select(" k.NAMA_KATEGORI, TANGGAL_EDIT 'TANGGAL_EDIT',STATUS_REVISI 'STATUS_REVISI', PATH_REKAMAN 'PATH' , SUBSTRING(b.JUDUL, 1, 30) 'JUDUL' ,u.NAMA_USER 'NAMA',b.ID_BERITA 'ID', b.ID_USER 'ID_USER', b.TANGGAL_PEMBUATAN 'TANGGAL_PEMBUATAN', b.HOT_NEWS 'REWARD', b.ID_KATEGORI 'TOPIK' ");
+		$this -> db -> select(" b.REDAKSI, k.NAMA_KATEGORI, TANGGAL_EDIT 'TANGGAL_EDIT',STATUS_REVISI 'STATUS_REVISI', PATH_REKAMAN 'PATH' , SUBSTRING(b.JUDUL, 1, 30) 'JUDUL' ,u.NAMA_USER 'NAMA',b.ID_BERITA 'ID', b.ID_USER 'ID_USER', b.TANGGAL_PEMBUATAN 'TANGGAL_PEMBUATAN', b.HOT_NEWS 'REWARD', b.ID_KATEGORI 'TOPIK' ");
 		$this -> db -> from('berita b');
 		$this -> db -> join('user u','b.ID_USER=u.ID_USER');
 		$this -> db -> join('kategori k','k.ID_KATEGORI=b.ID_KATEGORI');
@@ -375,7 +375,7 @@ class M_main extends CI_Model{
 		return $num;
 	}
 	function getData1_approved(){
-		$this -> db -> select("k.NAMA_KATEGORI 'NAMA_KATEGORI' , b.TANGGAL_EDIT 'TANGGAL_EDIT', b.STATUS_REVISI 'STATUS_REVISI' ,SUBSTRING(b.JUDUL, 1, 30) 'JUDUL' ,u.NAMA_USER 'NAMA',b.ID_BERITA 'ID', b.ID_USER 'ID_USER', b.TANGGAL_PEMBUATAN 'TANGGAL_PEMBUATAN', b.HOT_NEWS 'REWARD', b.ID_KATEGORI 'TOPIK' ");
+		$this -> db -> select("b.REDAKSI ,k.NAMA_KATEGORI 'NAMA_KATEGORI' , b.TANGGAL_EDIT 'TANGGAL_EDIT', b.STATUS_REVISI 'STATUS_REVISI' ,SUBSTRING(b.JUDUL, 1, 30) 'JUDUL' ,u.NAMA_USER 'NAMA',b.ID_BERITA 'ID', b.ID_USER 'ID_USER', b.TANGGAL_PEMBUATAN 'TANGGAL_PEMBUATAN', b.HOT_NEWS 'REWARD', b.ID_KATEGORI 'TOPIK' ");
 		$this -> db -> from('berita b');
 		$this -> db -> join('user u','b.ID_USER=u.ID_USER');
 		$this -> db -> join('kategori k','k.ID_KATEGORI=b.ID_KATEGORI');

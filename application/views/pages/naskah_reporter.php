@@ -49,6 +49,7 @@
                   <th>No</th>
                   <th>Berita</th>
                   <th>Tanggal</th>
+                  <th>Korektor</th>
                   <th>Waktu</th>
                   <th>Topik</th>
                   <th>Rekaman</th>
@@ -61,6 +62,7 @@
                     <td><?php echo $start++ ?></td>
                     <td><a style="float:left; width:100%;"  href="<?php if($sts!=null){echo site_url('reporter/editor/');}else{echo site_url('reporter/viewer/');}  echo "/"; echo $data_berita->ID ?>"><?php echo $data_berita->JUDUL ?>...</a><div style="float:left;" class="<?php if($revisi==='DIEDIT OLEH REPORTER'){echo 'pY';}elseif($revisi==='DIEDIT OLEH REDAKSI'){echo 'pH';} ?>"></div><div style="float:left"><span style="padding-left: 7px;"><?php if($revisi==='DIEDIT OLEH REPORTER'){echo 'Belum dicek oleh redaksi';}elseif($revisi==='DIEDIT OLEH REDAKSI'){echo '<strong>Sudah dicek oleh redaksi</strong>';} ?></span></div></td>
                     <td><?php echo date('d-M-Y', strtotime($data_berita->TANGGAL_PEMBUATAN)) ?></td>
+                    <td><?php echo ucwords($data_berita->REDAKSI) ?></td>
                     <td><?php echo date('H:i', strtotime($data_berita->TANGGAL_PEMBUATAN)) ?></td>
                     <td><?php echo $data_berita->NAMA_KATEGORI ?></td>
                     <td><?php $status=$data_berita->PATH; if($status!=null){ ?>

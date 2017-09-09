@@ -159,6 +159,64 @@ class Kabid extends CI_Controller {
 		
 
 		$html .= '</span><br/>';
+		$html .= '</span><br/>';
+
+				// Spacing
+		    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+		    $html .= '<table>';
+		    $html .= '<tr>';
+		    $html .= '<td width="50px">&nbsp;</td>';
+		    $html .= '<td>';
+		    $html .= '<table border="0">';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"></td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline"></font></td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+		    $html .= '</tr>';
+		    $html .= '</table>';
+		    $html .= '</td>';
+		    $html .= '<td width="200px">&nbsp;</td>';
+		    $html .= '<td>';
+		    $html .= '<table border="0">';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">Mengetahui</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">Kepala Bidang Programa 1</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Deni Rizki</font></td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+		    $html .= '</tr>';
+		    $html .= '</table>';
+		    $html .= '</td>';
+		    $html .= '</tr>';
+		    $html .= '</table>';
 		// output the HTML content
 		$pdf->writeHTML($html, true, false, true, false, '');
 
@@ -257,6 +315,63 @@ class Kabid extends CI_Controller {
 		
 
 		$html .= '</span><br/>';
+
+				// Spacing
+		    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+		    $html .= '<table>';
+		    $html .= '<tr>';
+		    $html .= '<td width="50px">&nbsp;</td>';
+		    $html .= '<td>';
+		    $html .= '<table border="0">';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"></td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline"></font></td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+		    $html .= '</tr>';
+		    $html .= '</table>';
+		    $html .= '</td>';
+		    $html .= '<td width="200px">&nbsp;</td>';
+		    $html .= '<td>';
+		    $html .= '<table border="0">';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">Mengetahui</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">Kepala Bidang Programa 1</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Deni Rizki</font></td>';
+		    $html .= '</tr>';
+		    $html .= '<tr>';
+		    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+		    $html .= '</tr>';
+		    $html .= '</table>';
+		    $html .= '</td>';
+		    $html .= '</tr>';
+		    $html .= '</table>';
 		// output the HTML content
 		$pdf->writeHTML($html, true, false, true, false, '');
 
@@ -336,7 +451,7 @@ class Kabid extends CI_Controller {
 		        $html .= "<td style=\"text-align:left\">&nbsp;$row->NAMA_USER</td>";
 		        $html .= "<td>$row->jumlah_berita</td>";
 		        $html .= "<td>$row->jumlah_reward</td>";
-		        $html .= "<td>".($reward*(floatval($row->jumlah_berita)))."</td>";
+		        $html .= "<td>Rp ".number_format( ($reward*(floatval($row->jumlah_berita))) , 0 , ',' , '.' )."</td>";
 		        $html .= "<td>66</td>";
 		        $html .= "</tr>";
 		}
@@ -344,10 +459,68 @@ class Kabid extends CI_Controller {
 		$html .= '</table><br/>';
 		//$html .= '<br/><span style="font-weight: bold;">REKOMENDASI</span><br/>';
 		$html .= '<br/>';
-		$html .= '<span style="font-weight: normal;">Nama - nama reporter yang tercantum di atas adalah reporter yang memiliki jumlah reward tertinggi di tahun '.$tahun.'.</span><br/>';
+		$html .= '<span style="font-weight: normal;">Nama - nama reporter yang tercantum di atas adalah reporter yang memiliki jumlah reward tertinggi di bulan '.$monthNames[(floatval($bulan)-1)].' '.$tahun.'.</span><br/>';
 		
 
 		$html .= '</span><br/>';
+
+		// Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline"></font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Mengetahui</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Bidang Programa 1</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Deni Rizki</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
 		// output the HTML content
 		$pdf->writeHTML($html, true, false, true, false, '');
 
@@ -478,7 +651,7 @@ class Kabid extends CI_Controller {
     $html .= '<td width="190px" style="text-align:center">Mengetahui</td>';
     $html .= '</tr>';
     $html .= '<tr>';
-    $html .= '<td width="190px" style="text-align:center">Kepala Bidang</td>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Bidang Programa 1</td>';
     $html .= '</tr>';
     $html .= '<tr>';
     $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
