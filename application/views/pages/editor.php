@@ -75,7 +75,7 @@
                         <h3 class="panel-title text-center">Rekaman</h3>
                     </div>
                     <div class="panel-body">
-                        <audio src="<?php echo base_url('uploads'); echo "/"; echo $data_news->PATH ?>" controls></audio>
+                        <audio src="<?php echo base_url('uploads'); echo "/"; echo str_replace(' ', '_', $data_news->PATH) ?>" controls></audio>
                     </div>
             </div>
            <?php } ?>

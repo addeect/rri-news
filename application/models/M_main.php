@@ -49,7 +49,7 @@ class M_main extends CI_Model{
 			$this->db->where("b.tanggal_pembuatan <=",date('Y-m-d H:i:s', strtotime($end_date)));
 		}
 		$this->db->group_by("b.ID_BERITA");
-		$this->db->order_by("b.TANGGAL_PEMBUATAN ASC");
+		$this->db->order_by("k.NAMA_KATEGORI ASC");
 		$query = $this->db->get();
 
 		return $query->result();
@@ -108,11 +108,12 @@ class M_main extends CI_Model{
 		$this -> db -> from('berita b');
 		$this -> db -> join('user u','b.ID_USER=u.ID_USER');
 		if($tahun){
-			$this -> db -> where('YEAR(b.TANGGAL_DISETUJUI)',$tahun);
+			$this -> db -> where('YEAR(b.TANGGAL_PEMBUATAN)',$tahun);
 		}
 		if($bulan){
-			$this -> db -> where('MONTH(b.TANGGAL_DISETUJUI)',$bulan);
+			$this -> db -> where('MONTH(b.TANGGAL_PEMBUATAN)',$bulan);
 		}
+		$this -> db -> where('b.TANGGAL_DISETUJUI IS NOT NULL',NULL);
 		//$this->db->where("b.TANGGAL_DISETUJUI is null AND b.JUDUL LIKE '%".$keyword."%' OR b.ISI LIKE '%".$keyword."%' ",NULL);
 		$this->db->group_by("b.ID_USER");
 		$this->db->order_by("jumlah_reward DESC");
@@ -127,14 +128,17 @@ class M_main extends CI_Model{
 		$this -> db -> from('berita b');
 		
 		if($tahun){
-			$this -> db -> where('YEAR(b.TANGGAL_DISETUJUI)',$tahun);
+			$this -> db -> where('YEAR(b.TANGGAL_PEMBUATAN)',$tahun);
 		}
 		if($bulan){
-			$this -> db -> where('MONTH(b.TANGGAL_DISETUJUI)',$bulan);
+			$this -> db -> where('MONTH(b.TANGGAL_PEMBUATAN)',$bulan);
 		}
 		if($hot){
 			$this -> db -> where('HOT_NEWS',$hot);
 		}
+		$this -> db -> where('b.TANGGAL_DISETUJUI IS NOT NULL',NULL);
+		
+
 		$this->db->order_by("1 DESC");
 
 	   $query = $this -> db -> get();
@@ -166,7 +170,7 @@ class M_main extends CI_Model{
 		return $query->result();
 	}
 	function getDataEvaluasi2(){
-		$this -> db -> select(" sum(r.JUMLAH_REWARD) 'nominal_reward', u.NAMA_USER 'NAMA_USER', monthname(b.TANGGAL_DISETUJUI) 'NAMA_BULAN', year(b.TANGGAL_DISETUJUI) 'TAHUN' , count(*) jumlah_berita, sum(b.HOT_NEWS) jumlah_reward");
+		$this -> db -> select(" sum(r.JUMLAH_REWARD) 'nominal_reward', u.NAMA_USER 'NAMA_USER', monthname(b.TANGGAL_PEMBUATAN) 'NAMA_BULAN', year(b.TANGGAL_PEMBUATAN) 'TAHUN' , count(*) jumlah_berita, sum(b.HOT_NEWS) jumlah_reward");
 		$this -> db -> from('berita b');
 		$this -> db -> join('user u','b.ID_USER=u.ID_USER');
 		$this -> db -> join('reward r','r.ID_REWARD=b.ID_REWARD');
@@ -179,12 +183,12 @@ class M_main extends CI_Model{
 		return $query->result();
 	}
 	function getDataEvaluasi1(){
-		$this -> db -> select(" u.NAMA_USER 'NAMA_USER', monthname(b.TANGGAL_DISETUJUI) 'NAMA_BULAN', year(b.TANGGAL_DISETUJUI) 'TAHUN' , count(*) jumlah_berita, sum(b.HOT_NEWS) jumlah_reward");
+		$this -> db -> select(" u.NAMA_USER 'NAMA_USER', monthname(b.TANGGAL_PEMBUATAN) 'NAMA_BULAN', year(b.TANGGAL_PEMBUATAN) 'TAHUN' , count(*) jumlah_berita, sum(b.HOT_NEWS) jumlah_reward");
 		$this -> db -> from('berita b');
 		$this -> db -> join('user u','b.ID_USER=u.ID_USER');
 		//$this->db->where("b.TANGGAL_DISETUJUI is null AND b.JUDUL LIKE '%".$keyword."%' OR b.ISI LIKE '%".$keyword."%' ",NULL);
 		$this->db->group_by("b.ID_USER");
-		$this->db->order_by("jumlah_reward DESC");
+		$this->db->order_by("jumlah_reward desc");
 		$this -> db -> limit(5);
 
 	   $query = $this -> db -> get();

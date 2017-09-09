@@ -56,8 +56,6 @@
             <tr style="background-color:#bfe2ff">
               <th>No.</th>
               <th>Nama Reporter</th>
-              <th>Bulan</th>
-              <th>Tahun</th>
               <th>Jumlah Berita</th>
               <th>Point Reward</th>
             </tr>
@@ -67,8 +65,6 @@
             <tr>
               <td><?php echo $start++ ?></td>
               <td><?php echo $data_evaluasi->NAMA_USER ?></td>
-              <td><?php echo $data_evaluasi->NAMA_BULAN ?></td>
-              <td><?php echo $data_evaluasi->TAHUN ?></td>
               <td><?php echo $data_evaluasi->jumlah_berita ?></td>
               <td><?php echo $data_evaluasi->jumlah_reward ?></td>
             </tr>

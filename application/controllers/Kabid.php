@@ -237,7 +237,7 @@ class Kabid extends CI_Controller {
 		{
 				$html .= "<tr>";
 		        $html .= "<td>".$start++."</td>";
-		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[(($row->month)-1)]."</td>";
+		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[(($row->month)-1)]." ".$row->tahun."</td>";
 		        $html .= "<td>".$row->jumlah_berita."</td>";
 		        $html .= "<td>$row->jumlah_hot_news</td>";
 		        $html .= "</tr>";
@@ -336,7 +336,7 @@ class Kabid extends CI_Controller {
 		        $html .= "<td style=\"text-align:left\">&nbsp;$row->NAMA_USER</td>";
 		        $html .= "<td>$row->jumlah_berita</td>";
 		        $html .= "<td>$row->jumlah_reward</td>";
-		        $html .= "<td>".($reward*(floatval($row->jumlah_reward)))."</td>";
+		        $html .= "<td>".($reward*(floatval($row->jumlah_berita)))."</td>";
 		        $html .= "<td>66</td>";
 		        $html .= "</tr>";
 		}
@@ -419,7 +419,7 @@ class Kabid extends CI_Controller {
 		{
 				$html .= "<tr>";
 		        $html .= "<td>".$start++."</td>";
-		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[$row->month]."</td>";
+		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[(($row->month)-1)]."</td>";
 		        $jml_berita = $this->m_main->getReportYearNumRow($tahun,$row->month);
 		        $jml_hot = $this->m_main->getReportYearNumRow($tahun,$row->month,1);
 		        $html .= "<td>".$jml_berita."</td>";

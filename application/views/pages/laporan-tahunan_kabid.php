@@ -198,7 +198,7 @@ $(document).ready(function(){
             for (i = 0; i < data.length ; i++) {
               // i = 1;
                 $('tbody').append(
-                  '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+                  '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
 
                 berita_count = berita_count + parseFloat(data[i].jumlah_berita);
                 hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
@@ -241,7 +241,7 @@ $(document).ready(function(){
             // i = 1;
              // alert(data[i].month);
               $('tbody').append(
-                '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+                '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
               berita_count = berita_count + parseFloat(data[i].jumlah_berita);
               hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
           }
