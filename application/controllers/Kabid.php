@@ -248,7 +248,7 @@ class Kabid extends CI_Controller {
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
 		$pdf->SetAuthor('AddeectCodeWorks');
-		$pdf->SetTitle('Laporan Tahunan');
+		$pdf->SetTitle('Laporan Per Reporter');
 		$pdf->SetSubject('RRI');
 		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
