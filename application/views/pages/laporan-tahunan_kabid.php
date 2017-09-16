@@ -71,9 +71,9 @@
               <div class="form-group">
                 <label>Tanggal</label>
                 <div class="row">
-                  <div class="col-sm-5"><input class="form-control" type="text" name="start_date" id="start_date" /></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" name="start_date" id="start_date" value="<?php echo date("Y-m-01"); ?>" /></div>
                   <div class="col-sm-1"><span style="vertical-align: -webkit-baseline-middle;text-align: center;" >s/d</span></div>
-                  <div class="col-sm-5"><input class="form-control" type="text" name="end_date" id="end_date" /></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" name="end_date" id="end_date" value="<?php echo date('Y-m-t'); ?>" /></div>
                 </div>
                 
               </div>
@@ -188,25 +188,27 @@ $(document).ready(function(){
             $('label#period_01').html('Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01);
             
             $('table#table_report').append(
-              '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr></thead>'
+              '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td><td>Nominal Reward</td></tr></thead>'
               );
             $('table#table_report').append('<tbody>');
             
             var i = 0;
             var berita_count = 0;
             var hot_count = 0;
+            var nominal_count = 0;
             for (i = 0; i < data.length ; i++) {
               // i = 1;
                 $('tbody').append(
-                  '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+                  '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td><td>Rp '+data[i].nominal_reward+'</td></tr>');
 
+                nominal_count = nominal_count + parseFloat(data[i].nominal_reward);
                 berita_count = berita_count + parseFloat(data[i].jumlah_berita);
                 hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
                 
             }
             // TOTAL
             $('tbody').append(
-              '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
+              '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td><td><b>Rp '+nominal_count+'</b></td></tr>');
             $('table#table_report').append('</tbody>');
             // $('div#report').append('</table>');
         }
@@ -229,25 +231,26 @@ $(document).ready(function(){
           $('div#report').append('<div class="form-group"><label id="period_01">Periode : '+hari+' '+bulan+' '+tahun+' s/d '+hari_01+' '+bulan_01+' '+tahun_01+'</label></div>');
           $('div#report').append('<table class="table table-responsive table-bordered" id="table_report">');
           $('table#table_report').append(
-            '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr></thead>'
+            '<thead><tr style="background-color:#f7f7f7;"><td>No.</td><td>Bulan</td><td>Berita Masuk</td><td>Berita Hot</td><td>Nominal Reward</td></tr></thead>'
             );
           $('table#table_report').append('<tbody>');
           
           var i = 0;
           var berita_count = 0;
           var hot_count = 0;
-
+          var nominal_count = 0;
           for (i = 0; i < data.length ; i++) {
             // i = 1;
              // alert(data[i].month);
               $('tbody').append(
-                '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td></tr>');
+                '<tr><td>'+(i+1)+'</td><td>'+monthNames[((data[i].month)-1)]+' '+data[i].tahun+'</td><td>'+data[i].jumlah_berita+'</td><td>'+data[i].jumlah_hot_news+'</td><td>Rp '+data[i].nominal_reward+'</td></tr>');
+              nominal_count = nominal_count + parseFloat(data[i].nominal_reward);
               berita_count = berita_count + parseFloat(data[i].jumlah_berita);
               hot_count = hot_count + parseFloat(data[i].jumlah_hot_news);
           }
           // TOTAL
           $('tbody').append(
-            '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td></tr>');
+            '<tr><td colspan="2"><b>Total</b></td><td><b>'+berita_count+'</b></td><td><b>'+hot_count+'</b></td><td><b>Rp '+nominal_count+'</b></td></tr>');
 
           $('table#table_report').append('</tbody>');
           $('div#report').append('</table>');

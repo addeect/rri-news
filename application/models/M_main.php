@@ -62,6 +62,7 @@ class M_main extends CI_Model{
 			year(b.tanggal_pembuatan) as tahun,
 			count(*) as jumlah_berita,
 			IF(sum(b.hot_news) IS NULL,'0',sum(b.hot_news)) AS jumlah_hot_news,
+			COUNT(b.id_berita) * (select jumlah_reward from reward where id_reward = (Select max(id_reward) from reward)) as nominal_reward,
 			u.nama_user as nama");
 		$this->db->from("berita b");
 		$this->db->join("user u","b.id_user=u.id_user");
@@ -117,7 +118,7 @@ class M_main extends CI_Model{
 		//$this->db->where("b.TANGGAL_DISETUJUI is null AND b.JUDUL LIKE '%".$keyword."%' OR b.ISI LIKE '%".$keyword."%' ",NULL);
 		$this->db->group_by("b.ID_USER");
 		$this->db->order_by("jumlah_reward DESC");
-		$this -> db -> limit(5);
+		// $this -> db -> limit(5);
 
 	   $query = $this -> db -> get();
 		return $query->result();

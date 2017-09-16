@@ -287,18 +287,22 @@ class Kabid extends CI_Controller {
 		
 
 		$html .='<table cellpadding="1" cellspacing="1" border="1" style="text-align:center;">
-		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="286px">Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr>';
+		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="186px">Bulan</td><td>Berita Masuk</td><td>Berita Hot</td><td width="160px">Nominal Reward</td></tr>';
 		$start = 1;
 		$berita_count = 0;
 		$hot_count = 0;
+		$nominal_count = 0;
 		foreach ($data_reporter as $row)
 		{
 				$html .= "<tr>";
 		        $html .= "<td>".$start++."</td>";
 		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[(($row->month)-1)]." ".$row->tahun."</td>";
 		        $html .= "<td>".$row->jumlah_berita."</td>";
-		        $html .= "<td>$row->jumlah_hot_news</td>";
+		        $html .= "<td>".$row->jumlah_hot_news."</td>";
+		        $html .= "<td>Rp ".$row->nominal_reward."</td>";
 		        $html .= "</tr>";
+
+		        $nominal_count = $nominal_count + floatval($row->nominal_reward);
 		        $berita_count = $berita_count + floatval($row->jumlah_berita);
 		        $hot_count = $hot_count + floatval($row->jumlah_hot_news);
 		}
@@ -307,6 +311,7 @@ class Kabid extends CI_Controller {
         // $html .= "<td style=\"text-align:left\">&nbsp;$row->bulan</td>";
         $html .= "<td><b>$berita_count</b></td>";
         $html .= "<td><b>$hot_count</b></td>";
+        $html .= "<td><b>Rp $nominal_count</b></td>";
         $html .= "</tr>";
 		$html .= '</table><br/>';
 		//$html .= '<br/><span style="font-weight: bold;">REKOMENDASI</span><br/>';
@@ -428,7 +433,7 @@ class Kabid extends CI_Controller {
 
 		$pdf->AddPage();
 		
-		$html = '<span style="font-weight: bold;">EVALUASI PRESTASI KERJA REPORTER</span><br/><br/>';
+		$html = '<span style="font-weight: bold;">LAPORAN REKAPITULASI REWARD PER BULAN PER TAHUN</span><br/><br/>';
 		$html .= '<span style="font-weight: normal;">Bulan : '.$monthNames[(floatval($bulan)-1)].' '.$tahun.'</span><br/><br/>';
 		/*$query1 = "SELECT NAMA_LOKASI, WITEL FROM master_access_point WHERE ID_LOKASI='".$id_lokasi."'";
 		$result1 = mysql_query($query1);
@@ -459,7 +464,7 @@ class Kabid extends CI_Controller {
 		$html .= '</table><br/>';
 		//$html .= '<br/><span style="font-weight: bold;">REKOMENDASI</span><br/>';
 		$html .= '<br/>';
-		$html .= '<span style="font-weight: normal;">Nama - nama reporter yang tercantum di atas adalah reporter yang memiliki jumlah reward tertinggi di bulan '.$monthNames[(floatval($bulan)-1)].' '.$tahun.'.</span><br/>';
+		// $html .= '<span style="font-weight: normal;">Nama - nama reporter yang tercantum di atas adalah reporter yang memiliki jumlah reward tertinggi di bulan '.$monthNames[(floatval($bulan)-1)].' '.$tahun.'.</span><br/>';
 		
 
 		$html .= '</span><br/>';

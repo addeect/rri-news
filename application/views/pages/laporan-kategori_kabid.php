@@ -72,9 +72,9 @@
               <div class="form-group">
                 <label>Tanggal</label>
                 <div class="row">
-                  <div class="col-sm-5"><input class="form-control" type="text" name="start_date" id="start_date" /></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" name="start_date" id="start_date" value="<?php echo date("Y-m-01"); ?>"/></div>
                   <div class="col-sm-1"><span style="vertical-align: -webkit-baseline-middle;text-align: center;" >s/d</span></div>
-                  <div class="col-sm-5"><input class="form-control" type="text" name="end_date" id="end_date" /></div>
+                  <div class="col-sm-5"><input class="form-control" type="text" name="end_date" id="end_date" value="<?php echo date("Y-m-t"); ?>"/></div>
                 </div>
                 
               </div>
