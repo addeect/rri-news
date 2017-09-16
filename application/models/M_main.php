@@ -122,6 +122,23 @@ class M_main extends CI_Model{
 	   $query = $this -> db -> get();
 		return $query->result();
 	}
+	function getReporterEachMonth($year){
+		$this->db->select("
+			MONTH(b.tanggal_pembuatan) AS month,
+			u.NAMA_USER, 
+			COUNT(b.id_berita) * (select jumlah_reward from reward where id_reward = (Select max(id_reward) from reward)) as nominal_reward,
+			IF(COUNT(b.id_berita) IS NULL,'0',COUNT(b.id_berita)) as berita_masuk, 
+			IF(SUM(b.hot_news) IS NULL,'0', SUM(b.hot_news)) as berita_hot
+		");
+		$this->db->from("berita b");
+		$this->db->join("user u","b.id_user = u.id_user");
+		$this->db->where("b.tanggal_disetujui is not null",NULL);
+		$this->db->where("year(b.tanggal_pembuatan)",$year);
+		$this->db->group_by("month(b.tanggal_pembuatan), b.ID_USER");
+		$query = $this->db->get();
+
+		return $query->result();
+	}
 	function getReportYearNumRow($tahun = null,$bulan = null,$hot = null){
 
 		$this -> db -> select("*");

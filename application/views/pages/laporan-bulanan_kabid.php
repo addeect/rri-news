@@ -49,7 +49,7 @@
 
     <div class="col-sm-9 konten">
       <form target="_blank" method="get" action="<?php echo site_url('kabid/cetakLaporan') ?>">
-      <div class="row">
+      <div class="row" style="padding:0 0 30px 0">
         <div class="col-sm-12">
           <div>
             <h3 class="text-center" style="margin-bottom:20px">Rekapitulasi Reward</h3>

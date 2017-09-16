@@ -532,7 +532,7 @@ class Kabid extends CI_Controller {
 		$this->load->library('Pdf');
 		$tahun = $this->input->get('tahun');
 		// $bulan_name = $this->input->get('bulan_name');
-		$month = $this->m_main->getMonth();
+		$month = $this->m_main->getReporterEachMonth($tahun);
 		// $dataLaporan = $this->m_main->getReportYear($tahun,$bulan);
 		// $data_reward = $this->m_main->getReward();
 		
@@ -580,29 +580,34 @@ class Kabid extends CI_Controller {
 		// $html .= '<span style="font-weight: normal;">Tahun : '.$tahun.'</span><br/><br/>';
 		$html .= '<table>';
 		$html .= '<tr>';
-		$html .= '<td width="80px"></td>';
+		$html .= '<td width="10px"></td>';
 		$html .= '<td width="500px">';
 		$html .='<table cellpadding="1" cellspacing="1" border="1" style="text-align:center;">
-		<tr style="background-color:#f0f8ff"><td width="30px">No.</td><td width="186px">Bulan</td><td>Berita Masuk</td><td>Berita Hot</td></tr>';
+		<tr style="background-color:#f0f8ff"><td width="40px">No.</td><td width="100px">Bulan</td><td width="156px">Nama Reporter</td><td width="150px">Nominal Reward</td><td>Berita Masuk</td><td>Berita Hot</td></tr>';
 		$start = 1;
 		$total_masuk = 0;
 		$total_hot = 0;
+		$total_nominal = 0;
 		// var_dump($month);die();
 		foreach ($month as $row)
 		{
 				$html .= "<tr>";
 		        $html .= "<td>".$start++."</td>";
 		        $html .= "<td style=\"text-align:left\">&nbsp;".$monthNames[(($row->month)-1)]."</td>";
-		        $jml_berita = $this->m_main->getReportYearNumRow($tahun,$row->month);
-		        $jml_hot = $this->m_main->getReportYearNumRow($tahun,$row->month,1);
-		        $html .= "<td>".$jml_berita."</td>";
-		        $html .= "<td>".$jml_hot."</td>";
+		        // $jml_berita = $this->m_main->getReportYearNumRow($tahun,$row->month);
+		        // $jml_hot = $this->m_main->getReportYearNumRow($tahun,$row->month,1);
+		        $html .= "<td style=\"text-align:left\">&nbsp;&nbsp;".$row->NAMA_USER."</td>";
+		        $html .= "<td style=\"text-align:right\"> Rp ".number_format( $row->nominal_reward , 0 , ',' , '.' )."&nbsp;&nbsp;</td>";
+		        $html .= "<td>".$row->berita_masuk."</td>";
+		        $html .= "<td>".$row->berita_hot."</td>";
 		        $html .= "</tr>";
-		        $total_masuk = $total_masuk + floatval($jml_berita);
-		        $total_hot = $total_hot + floatval($jml_hot);
+		        $total_nominal = $total_nominal + floatval($row->nominal_reward);
+		        $total_masuk = $total_masuk + floatval($row->berita_masuk);
+		        $total_hot = $total_hot + floatval($row->berita_hot);
 		}
 		$html .= '<tr>';
-		$html .= '<td colspan="2"><b>TOTAL</b></td>';
+		$html .= '<td colspan="3"><b>TOTAL</b></td>';
+		$html .= '<td><b>Rp '.number_format( $total_nominal , 0 , ',' , '.' ).'</b></td>';
 		$html .= '<td><b>'.$total_masuk.'</b></td>';
 		$html .= '<td><b>'.$total_hot.'</b></td>';
 		$html .= '</tr>';
